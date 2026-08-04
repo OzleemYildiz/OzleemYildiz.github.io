@@ -203,7 +203,7 @@
       course: 'Introduction to Probability and Stochastic Processes',
       school: 'NYU Tandon',
       role: 'Teaching assistant',
-      note: 'With Prof. Elza Erkip. Graduate core course.'
+      note: 'With Prof. Elza Erkip. Undergraduate course.'
     },
     {
       course: 'Machine Learning',
