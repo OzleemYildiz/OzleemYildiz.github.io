@@ -350,10 +350,28 @@
 }
 
 .flip__hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
   font-size: 0.72rem;
   font-weight: 500;
   color: var(--faint);
   white-space: nowrap;
+}
+
+.flip__hint svg {
+  flex: 0 0 auto;
+  transition: transform 420ms var(--ease);
+}
+
+/* The icon turns over on hover, which is the clearest way to say what the bar
+   is about to do. */
+.flip:hover .flip__hint svg {
+  transform: rotate(180deg);
+}
+
+.flip:hover .flip__hint {
+  color: var(--accent-ink);
 }
 
 .flip__icon {

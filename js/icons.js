@@ -23,7 +23,8 @@
     chevronRight: '<path d="m9.5 5 7 7-7 7"/>',
     bridge: '<path d="M3 16h18"/><path d="M3 16c0-5 4-8 9-8s9 3 9 8"/><path d="M7.5 16v-3.4M12 16V9.6M16.5 16v-3.4"/>',
     spark: '<path d="M12 3.5 13.9 9l5.6 1.9-5.6 1.9L12 18.5l-1.9-5.7L4.5 11 10.1 9z"/><path d="M18.5 4v3M20 5.5h-3"/>',
-    compass: '<circle cx="12" cy="12" r="8.5"/><path d="m15 9-2 4.2L8.9 15l2-4.2z"/>'
+    compass: '<circle cx="12" cy="12" r="8.5"/><path d="m15 9-2 4.2L8.9 15l2-4.2z"/>',
+    flip: '<path d="M20.5 11.5a8.5 8.5 0 0 0-14.6-5.4L3.5 8.5"/><path d="M3.5 4.5v4h4"/><path d="M3.5 12.5a8.5 8.5 0 0 0 14.6 5.4l2.4-2.4"/><path d="M20.5 19.5v-4h-4"/>'
   };
 
   /* svg(name, size) -> markup string. Callers set colour via currentColor. */

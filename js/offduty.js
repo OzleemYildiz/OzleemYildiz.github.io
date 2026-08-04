@@ -71,11 +71,10 @@
     return '<span class="gal__poke">' + (card.pokeLabel || 'tap me') + '</span>';
   }
 
-  /* Keep the caption hint using the same verb as the badge on the photo. */
-  function hintFor(card) {
-    if (!card.poke) return 'flip';
-    var verb = (card.pokeLabel || 'tap me').split(' ')[0];
-    return verb + ' the photo, or flip';
+  /* "Flip" only means something once you already know the card has a back, so
+     the hint names the outcome instead. */
+  function hintFor() {
+    return 'read more';
   }
 
   /* The card's only always-available control. It sits outside the rotating
@@ -85,7 +84,7 @@
     return (
       '<button class="flip__cap" type="button" aria-expanded="false">' +
       '<span>' + title + '</span>' +
-      '<span class="flip__hint">' + hint + '</span>' +
+      '<span class="flip__hint">' + P.icon('flip', 13) + hint + '</span>' +
       '</button>'
     );
   }
