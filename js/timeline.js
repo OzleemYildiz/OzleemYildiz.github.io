@@ -45,8 +45,7 @@
     });
 
     radar.to(entry.values, options.instant ? 0 : 620);
-    captionEl.textContent =
-      entry.year + ': ' + entry.title + '. Share of day-to-day work, not a competence score.';
+    captionEl.textContent = entry.year + ': ' + entry.title;
   }
 
   function collapse() {
@@ -92,9 +91,7 @@
             '<span class="tnode__org">' +
             (t.company ? '<span class="tnode__co">' + t.company + '</span>' : '') +
             t.org + '</span>' +
-            (t.sameCompany
-              ? '<span class="tnode__same">' + t.sameCompany + '</span>'
-              : '') +
+
             '</button>' +
             '<div class="tdetail" id="tdetail-' + i + '" hidden>' +
             '<p>' + t.detail + '</p>' + photos +

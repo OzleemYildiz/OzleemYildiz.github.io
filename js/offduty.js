@@ -12,11 +12,18 @@
 
   var quipIndex = 0;
 
-  function picture(name, alt, cls) {
+    /* Intrinsic sizes of the built images, so every <img> can carry width and
+     height and the page never reflows as photos arrive. The book cover is
+     portrait; everything else is the standard 4:3 card crop. */
+  var DIMS = { book: [592, 900] };
+  var DEFAULT_DIMS = [1000, 750];
+
+  function picture(name, alt) {
+    var d = DIMS[name] || DEFAULT_DIMS;
     return (
       '<picture>' +
       '<source srcset="img/' + name + '.webp" type="image/webp" />' +
-      '<img class="' + (cls || '') + '" src="img/' + name + '.jpg" width="1000" height="750" ' +
+      '<img src="img/' + name + '.jpg" width="' + d[0] + '" height="' + d[1] + '" ' +
       'loading="lazy" alt="' + alt + '" />' +
       '</picture>'
     );
@@ -53,11 +60,22 @@
       '<button class="gal__arrow gal__arrow--next" type="button" data-step="1" ' +
       'aria-label="Next photo">' + P.icon('chevronRight', 18) + '</button>' +
       '<span class="gal__dots">' + dots + '</span>' +
-      (card.poke ? '<span class="gal__poke">poke me</span>' : '') +
+      (card.poke ? badge(card) : '') +
       '</span>' +
       '<span class="gal__caption">' + card.gallery[0].caption + '</span>' +
       '</span>'
     );
+  }
+
+  function badge(card) {
+    return '<span class="gal__poke">' + (card.pokeLabel || 'tap me') + '</span>';
+  }
+
+  /* Keep the caption hint using the same verb as the badge on the photo. */
+  function hintFor(card) {
+    if (!card.poke) return 'flip';
+    var verb = (card.pokeLabel || 'tap me').split(' ')[0];
+    return verb + ' the photo, or flip';
   }
 
   /* The card's only always-available control. It sits outside the rotating
@@ -78,12 +96,17 @@
     if (card.gallery) {
       front = {
         body: galleryMarkup(card, i),
-        cap: capButton(card.title, card.poke ? 'poke the photo, or flip' : 'flip')
+        cap: capButton(card.title, hintFor(card))
       };
     } else if (card.image) {
       front = {
-        body: '<span class="flip__media">' + picture(card.image, card.alt) + '</span>',
-        cap: capButton(card.title, 'flip')
+        body:
+          '<span class="flip__media' +
+          (card.fit === 'contain' ? ' flip__media--contain' : '') + '">' +
+          picture(card.image, card.alt) +
+          (card.poke ? badge(card) : '') +
+          '</span>',
+        cap: capButton(card.title, hintFor(card))
       };
     } else {
       front = {
@@ -98,7 +121,8 @@
       (card.url ? '<span class="flip__link">' + card.linkLabel + ' &rarr;</span>' : '');
 
     return (
-      '<div class="flip' + (card.poke ? ' flip--plant' : '') + '" data-card="' + i + '"' +
+      '<div class="flip' + (card.poke ? ' flip--poke' : '') +
+      (card.kind === 'plants' ? ' flip--plant' : '') + '" data-card="' + i + '"' +
       (card.poke ? ' data-poke="1"' : '') +
       (card.url ? ' data-url="' + card.url + '"' : '') + '>' +
       '<span class="flip__stage">' +
@@ -175,12 +199,16 @@
 
         // Poking the plant photo fires confetti instead of flipping, so you can
         // keep poking it. The caption bar still flips the card.
-        if (card.dataset.poke && e.target.closest('.gal__stack')) {
-          var r = card.getBoundingClientRect();
+        var photo = e.target.closest('.gal__stack, .flip__media');
+        if (card.dataset.poke && photo) {
+          var data = P.data.offDuty[Number(card.dataset.card)];
+          var r = photo.getBoundingClientRect();
           var cx = r.left + r.width / 2;
           var cy = r.top + r.height / 2;
-          P.confetti.burst(cx, cy, 'plant');
-          var quips = P.data.plantQuips;
+
+          P.confetti.burst(cx, cy, data && data.kind === 'plants' ? 'plant' : 'konami');
+
+          var quips = (data && data.quips) || P.data.plantQuips;
           P.confetti.say(quips[quipIndex % quips.length], cx, cy);
           quipIndex++;
           return;

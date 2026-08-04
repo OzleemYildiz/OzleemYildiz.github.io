@@ -126,6 +126,7 @@ normalize "IMG_1907.jpg" volleyball
 normalize "000091050001.jpg" film
 normalize "IMG_4919.jpg" hike-bay
 normalize "cfeba68a-7317-4964-981f-0d17f3caafe6.JPG" hike-trail
+normalize "book-cover.png" book
 
 echo
 echo "==> plants (background blur)"
@@ -160,7 +161,17 @@ emit defense_src.jpg    defense    1000 750
 emit volleyball_src.jpg volleyball 1000 750
 emit film_src.jpg       film       1000 750
 emit hike-bay_src.jpg   hike-bay   1000 750
-emit hike-trail_src.jpg hike-trail 1000 750 north
+# The walkers sit below the middle of this portrait frame, so a north crop
+# decapitates them. Bias the crop downward instead.
+# The walkers sit below the middle of this portrait frame. Cropping from the
+# north cut them off at the shoulders; centre keeps them whole.
+emit hike-trail_src.jpg hike-trail 1000 750
+
+# A book cover should not be cropped to a landscape card, so it keeps its own
+# proportions and the card letterboxes it.
+magick "$BUILD/book_src.jpg" -resize 600x900 -strip -quality "$JQ" "$OUT/book.jpg"
+magick "$BUILD/book_src.jpg" -resize 600x900 -strip -quality "$WQ" \
+    -define webp:method=6 "$OUT/book.webp"
 
 echo
 echo "==> favicon"

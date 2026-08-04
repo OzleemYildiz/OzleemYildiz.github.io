@@ -13,7 +13,7 @@
   /* ---------------------------------------------------------------- profile */
 
   P.data.profile = {
-    name: 'Ozlem Yıldız',
+    name: 'Özlem Yıldız',
     role: 'Research Scientist, Meta',
     tagline: 'I work on <em>AI coding agents</em> at Meta: what they learn from each other, and how we measure whether it helped.',
     location: 'New York City',
@@ -34,7 +34,7 @@
       { value: 8, label: 'publications', note: 'Six published, two under review at Asilomar 2026 and IEEE TWC.' },
       { value: 2, label: 'patents pending', note: 'Filed from the Samsung Research America and Dell internships.' },
       { value: 11, label: 'languages shipped', note: 'Ray-Ban Meta Glasses translation, in production.' },
-      { value: 5, label: 'years of research', note: 'NYU Wireless, 2020 to 2025, with Prof. Elza Erkip.' }
+      { value: 6, label: 'years of research', note: 'NYU Wireless with Prof. Elza Erkip, plus research internships each summer.' }
     ]
   };
 
@@ -264,7 +264,7 @@
       org: 'University of Erlangen-Nuremberg, Germany',
       values: [5, 3, 3, 1, 0, 0],
       detail:
-        'Six months at the University of Erlangen-Nuremberg on an Erasmus+ scholarship, March to August 2019, taking electrical engineering coursework in Germany.'
+        'Six months at the University of Erlangen-Nuremberg on an Erasmus+ scholarship, March to August 2019. Courses: Image and Video Compression, Mobile Communications, Optimization for Engineers, Speech and Audio Signal Processing, plus German A2.1 and A2.2.'
     },
     {
       year: '2020',
@@ -333,7 +333,6 @@
       title: 'Moved teams inside Meta',
       company: 'Meta',
       org: 'Research Scientist, Agent Data & Optimization',
-      sameCompany: 'Same company, new team',
       values: [3, 9, 9, 10, 7, 9],
       detail:
         'Moved from the Multimodal AI team to Agent Data & Optimization in May 2026, staying at Meta. Working on context sharing between AI coding agents, and on the benchmark tasks and evaluation frameworks used to measure whether an agent has actually improved.',
@@ -350,6 +349,7 @@
       kind: 'plants',
       title: 'Plants',
       poke: true,
+      pokeLabel: 'tap me',
       gallery: [
         {
           src: 'plant-shelf',
@@ -374,13 +374,31 @@
       kind: 'photo',
       image: 'volleyball',
       title: 'Pier Pressure',
+      poke: true,
+      pokeLabel: 'tap me',
+      quips: [
+        'Point.',
+        'That was in.',
+        'Rotate.',
+        'Nice dig.',
+        'Called it out. It was in.'
+      ],
       alt: 'My volleyball team in pink Volo jerseys on a sand court with the Manhattan skyline behind us',
       back:
-        'Our Volo team, on sand at the pier with the skyline behind us. I joined not knowing anyone on it. We picked the name before we found out how we would play, and the name is still the strongest thing about us.'
+        'Beach volleyball at the pier, in the rain, in three layers, whenever the season says so. We show up. The name promises pressure and the team delivers none of it, which is the whole appeal.'
     },
     {
       kind: 'gallery',
       title: 'Hiking',
+      poke: true,
+      pokeLabel: 'tap me',
+      quips: [
+        'Fifteen more minutes.',
+        'Summit-ish.',
+        'The dog is faster than all of us.',
+        'Snack break, obviously.',
+        'One more switchback.'
+      ],
       gallery: [
         {
           src: 'hike-bay',
@@ -400,19 +418,38 @@
       kind: 'link',
       image: 'film',
       title: 'Film photography',
+      poke: true,
+      pokeLabel: 'tap me',
+      quips: [
+        'Click. Wound on.',
+        'That one is probably blurry.',
+        'Twelve frames left.',
+        'See you in three weeks.',
+        'Light leak. On purpose.'
+      ],
       alt: 'A grainy film photograph of a church tower against a dusk sky',
       back:
-        'Thirty-six frames, no screen on the back, no second try. I shoot a roll, forget what is on it, and find out weeks later which ones worked.',
+        'Thirty-six frames, no second chances, and a mystery until the roll comes back.',
       url: 'https://instagram.com/c_ozy_film?igshid=OGQ5ZDc2ODk2ZA%3D%3D&utm_source=qr',
       linkLabel: 'More on Instagram'
     },
     {
       kind: 'book',
       title: 'Reading',
-      icon: 'book',
-      front: 'Sublimation, Isabel J. Kim',
+      image: 'book',
+      fit: 'contain',
+      alt: 'Cover of Sublimation by Isabel J. Kim',
+      poke: true,
+      pokeLabel: 'tap me',
+      quips: [
+        'Page forty.',
+        'One more chapter.',
+        'Borrowed. Not returned.',
+        'Read that line twice.',
+        'Bookmark: a receipt.'
+      ],
       back:
-        'Science fiction mostly, with a detour through psychology. I abandon books at page forty without guilt, which took me years to learn.'
+        'Sublimation, by Isabel J. Kim. Science fiction mostly, with a detour through psychology.'
     },
   ];
 

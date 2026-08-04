@@ -283,16 +283,32 @@
 /* All of the inner pieces are <span>s too, so each needs an explicit display
    or it lays out as inline text instead of a flex child. */
 .flip__media {
+  position: relative;
   display: block;
-  flex: 1 1 auto;
-  min-height: 0;
+  flex: 0 0 auto;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  /* An image whose intrinsic ratio is very different from the card's, like the
+     portrait book cover, will otherwise set the height itself. */
+  overflow: hidden;
   background: var(--bg-sunken);
 }
 
 .flip__media img {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+/* A book cover is shown whole rather than cropped to the card. */
+.flip__media--contain {
+  aspect-ratio: 4 / 3;
+}
+
+.flip__media--contain img {
+  object-fit: contain;
+  padding: var(--s-3);
 }
 
 /* The caption bar is the card's real, focusable control. It sits below the
@@ -372,8 +388,9 @@
 .gal__stack {
   position: relative;
   display: block;
-  flex: 1 1 auto;
-  min-height: 0;
+  flex: 0 0 auto;
+  width: 100%;
+  aspect-ratio: 4 / 3;
   background: var(--bg-sunken);
   overflow: hidden;
 }
@@ -516,8 +533,8 @@
   color: var(--accent-ink);
 }
 
-/* Plant cards get a nudge that they are clickable. */
-.flip--plant .flip__front::after {
+/* Clickable photos get a nudge on hover. */
+.flip--poke .flip__front::after {
   content: '';
   position: absolute;
   inset: 0;
@@ -527,7 +544,7 @@
   pointer-events: none;
 }
 
-.flip--plant:hover .flip__front::after {
+.flip--poke:hover .flip__front::after {
   box-shadow: inset 0 0 0 3px var(--accent-glow);
 }
 
@@ -1036,18 +1053,6 @@
   color: var(--faint);
 }
 
-.tnode__same {
-  justify-self: start;
-  margin-top: 3px;
-  padding: 1px 8px;
-  border-radius: var(--radius-pill);
-  border: 1px dashed color-mix(in srgb, var(--accent) 45%, transparent);
-  background: var(--accent-wash);
-  color: var(--accent-ink);
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-}
 
 .tnode__now {
   display: inline-block;
