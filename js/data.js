@@ -368,7 +368,7 @@
         }
       ],
       back:
-        'Eleven of them, and I have not lost one yet. The moon cactus is the interesting one: the red part cannot photosynthesise at all, so it lives entirely off the green stem it is grafted onto.'
+        'New skill unlocked: extended into eleven plants and have not lost one yet. I am patient with their growth, which is not a patience I show anywhere else. The moon cactus is the interesting one, the red part cannot photosynthesise at all and lives entirely off the green stem it is grafted onto.'
     },
     {
       kind: 'photo',
@@ -376,7 +376,7 @@
       title: 'Pier Pressure',
       alt: 'My volleyball team in pink Volo jerseys on a sand court with the Manhattan skyline behind us',
       back:
-        'Our Volo team, on sand at the pier with the skyline behind us. We picked the name before we found out how we would play, and the name is still winning.'
+        'Our Volo team, on sand at the pier with the skyline behind us. I joined not knowing anyone on it. We picked the name before we found out how we would play, and the name is still the strongest thing about us.'
     },
     {
       kind: 'gallery',
@@ -394,7 +394,7 @@
         }
       ],
       back:
-        'Most weekends, somewhere upstate. I am the one who says the summit is fifteen minutes away when it is fifty.'
+        'Most weekends, somewhere upstate or further. I am the one who says the summit is fifteen minutes away when it is fifty, and I have not been right yet.'
     },
     {
       kind: 'link',
@@ -402,7 +402,7 @@
       title: 'Film photography',
       alt: 'A grainy film photograph of a church tower against a dusk sky',
       back:
-        'Thirty-six frames and no screen on the back. I shoot a roll, forget what is on it, and find out weeks later.',
+        'Thirty-six frames, no screen on the back, no second try. I shoot a roll, forget what is on it, and find out weeks later which ones worked.',
       url: 'https://instagram.com/c_ozy_film?igshid=OGQ5ZDc2ODk2ZA%3D%3D&utm_source=qr',
       linkLabel: 'More on Instagram'
     },
@@ -412,16 +412,8 @@
       icon: 'book',
       front: 'Sublimation, Isabel J. Kim',
       back:
-        'Science fiction, mostly, with a detour through psychology. I finish about half of what I start and refuse to feel bad about it.'
+        'Science fiction mostly, with a detour through psychology. I abandon books at page forty without guilt, which took me years to learn.'
     },
-    {
-      kind: 'list',
-      title: 'Climbing and yoga',
-      icon: 'mountain',
-      front: 'Indoors, when the weather wins',
-      back:
-        'Climbing is the one that transfers to work. You fail the same move eleven times, change one small thing, and it goes.'
-    }
   ];
 
   /* Rotating one-liners for the plant confetti burst. */

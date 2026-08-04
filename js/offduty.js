@@ -47,21 +47,22 @@
 
     return (
       '<span class="gal" data-gallery="' + i + '">' +
-      '<span class="gal__stack">' + slides + '</span>' +
-      '<span class="gal__nav">' +
-      '<button class="gal__arrow" type="button" data-step="-1" ' +
+      '<span class="gal__stack">' + slides +
+      '<button class="gal__arrow gal__arrow--prev" type="button" data-step="-1" ' +
       'aria-label="Previous photo">' + P.icon('chevronLeft', 18) + '</button>' +
-      '<span class="gal__dots">' + dots + '</span>' +
-      '<button class="gal__arrow" type="button" data-step="1" ' +
+      '<button class="gal__arrow gal__arrow--next" type="button" data-step="1" ' +
       'aria-label="Next photo">' + P.icon('chevronRight', 18) + '</button>' +
+      '<span class="gal__dots">' + dots + '</span>' +
+      (card.poke ? '<span class="gal__poke">poke me</span>' : '') +
       '</span>' +
       '<span class="gal__caption">' + card.gallery[0].caption + '</span>' +
       '</span>'
     );
   }
 
-  /* The one focusable control on a card. The card itself is a div, so that the
-     gallery buttons are not nested inside another button, which is invalid. */
+  /* The card's only always-available control. It sits outside the rotating
+     stage on purpose: inside, it would end up in a face that is hidden when the
+     card is flipped, leaving keyboard focus stranded in a hidden subtree. */
   function capButton(title, hint) {
     return (
       '<button class="flip__cap" type="button" aria-expanded="false">' +
@@ -71,44 +72,25 @@
     );
   }
 
-  /* Only the visible face belongs in the accessibility tree. Under reduced
-     motion the card does not rotate and both faces are shown stacked, so both
-     stay exposed. */
-  function syncFaces(card, flipped) {
-    var front = card.querySelector('.flip__front');
-    var back = card.querySelector('.flip__back');
-    if (!front || !back) return;
-
-    if (P.state.reducedMotion) {
-      front.removeAttribute('aria-hidden');
-      back.removeAttribute('aria-hidden');
-      return;
-    }
-    if (flipped) {
-      front.setAttribute('aria-hidden', 'true');
-      back.removeAttribute('aria-hidden');
-    } else {
-      back.setAttribute('aria-hidden', 'true');
-      front.removeAttribute('aria-hidden');
-    }
-  }
-
   function renderCard(card, i) {
     var front;
 
     if (card.gallery) {
-      front =
-        galleryMarkup(card, i) +
-        capButton(card.title, card.poke ? 'poke a plant' : 'flip');
+      front = {
+        body: galleryMarkup(card, i),
+        cap: capButton(card.title, card.poke ? 'poke the photo, or flip' : 'flip')
+      };
     } else if (card.image) {
-      front =
-        '<span class="flip__media">' + picture(card.image, card.alt) + '</span>' +
-        capButton(card.title, 'flip');
+      front = {
+        body: '<span class="flip__media">' + picture(card.image, card.alt) + '</span>',
+        cap: capButton(card.title, 'flip')
+      };
     } else {
-      front =
-        '<span class="flip__icon">' + P.icon(card.icon || 'book', 30) + '</span>' +
-        '<span class="flip__lead">' + card.front + '</span>' +
-        capButton(card.title, 'flip');
+      front = {
+        body: '<span class="flip__icon">' + P.icon(card.icon || 'book', 30) + '</span>' +
+              '<span class="flip__lead">' + card.front + '</span>',
+        cap: capButton(card.title, 'flip')
+      };
     }
 
     var back =
@@ -119,10 +101,13 @@
       '<div class="flip' + (card.poke ? ' flip--plant' : '') + '" data-card="' + i + '"' +
       (card.poke ? ' data-poke="1"' : '') +
       (card.url ? ' data-url="' + card.url + '"' : '') + '>' +
+      '<span class="flip__stage">' +
       '<span class="flip__inner">' +
-      '<span class="flip__face flip__front">' + front + '</span>' +
+      '<span class="flip__face flip__front">' + front.body + '</span>' +
       '<span class="flip__face flip__back">' + back + '</span>' +
       '</span>' +
+      '</span>' +
+      front.cap +
       '</div>'
     );
   }
@@ -166,17 +151,6 @@
 
       var root = document.getElementById('offduty');
 
-      Array.prototype.forEach.call(document.querySelectorAll('.flip'), function (c) {
-        syncFaces(c, false);
-      });
-
-      // Reduced motion can be switched on mid-session; both faces then show.
-      P.state.on('motion', function () {
-        Array.prototype.forEach.call(document.querySelectorAll('.flip'), function (c) {
-          syncFaces(c, c.classList.contains('is-flipped'));
-        });
-      });
-
       /* Gallery controls come first and stop the click from reaching the card,
          so stepping through photos never flips the card underneath. */
       root.addEventListener('click', function (e) {
@@ -215,7 +189,6 @@
         var flipped = card.classList.toggle('is-flipped');
         var cap = card.querySelector('.flip__cap');
         if (cap) cap.setAttribute('aria-expanded', String(flipped));
-        syncFaces(card, flipped);
 
         // A card carrying a link opens it on the second click, once its back is
         // showing, so the first click never navigates away unexpectedly.
@@ -233,7 +206,6 @@
             card.classList.remove('is-flipped');
             var cap = card.querySelector('.flip__cap');
             if (cap) cap.setAttribute('aria-expanded', 'false');
-            syncFaces(card, false);
           }
         );
       });
