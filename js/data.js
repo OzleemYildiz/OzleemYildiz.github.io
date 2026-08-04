@@ -354,7 +354,7 @@
         {
           src: 'plant-shelf',
           alt: 'An orchid, a ZZ plant in a mirrored disco ball pot, and a trailing pothos',
-          caption: 'Orchid, ZZ plant, pothos. The ZZ lives in a disco ball.'
+          caption: 'Orchid, ZZ plant, pothos.'
         },
         {
           src: 'plant-windowsill',
@@ -368,7 +368,7 @@
         }
       ],
       back:
-        'New skill unlocked: extended into eleven plants and have not lost one yet. I am patient with their growth, which is not a patience I show anywhere else. The moon cactus is the interesting one, the red part cannot photosynthesise at all and lives entirely off the green stem it is grafted onto.'
+        'New skill unlocked: extended into eleven plants and have not lost one yet. I am patient with their growth.'
     },
     {
       kind: 'photo',
@@ -412,7 +412,7 @@
         }
       ],
       back:
-        'Most weekends, somewhere upstate or further. I am the one who says the summit is fifteen minutes away when it is fifty, and I have not been right yet.'
+        'The part I like is the middle, when it stops being scenic and becomes a long argument with yourself. I usually win.'
     },
     {
       kind: 'link',

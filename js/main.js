@@ -39,6 +39,11 @@
     });
     syncLabel();
 
+    /* The footer clue doubles as the trigger, so the terminal is reachable
+       without a keyboard. */
+    var hint = document.getElementById('konami-hint');
+    if (hint) hint.addEventListener('click', P.easterEgg.open);
+
     // If the page loaded straight onto Skills or Journey, their tab event never
     // fires, so nudge whichever one is already showing.
     P.skills.playIfActive();
