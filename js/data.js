@@ -353,13 +353,13 @@
       gallery: [
         {
           src: 'plant-shelf',
-          alt: 'A ZZ plant in a mirrored disco ball pot, beside an orchid and a trailing pothos',
-          caption: 'ZZ plant, in a disco ball. Obviously.'
+          alt: 'An orchid, a ZZ plant in a mirrored disco ball pot, and a trailing pothos',
+          caption: 'Orchid, ZZ plant, pothos. The ZZ lives in a disco ball.'
         },
         {
           src: 'plant-windowsill',
-          alt: 'A snake plant, a red moon cactus and a jade plant on a windowsill above a rainy street',
-          caption: 'Snake plant, moon cactus, jade.'
+          alt: 'A snake plant, a red moon cactus and a kalanchoe on a windowsill above a rainy street',
+          caption: 'Snake plant, moon cactus, kalanchoe.'
         },
         {
           src: 'plant-palm',
@@ -385,7 +385,7 @@
       ],
       alt: 'My volleyball team in pink Volo jerseys on a sand court with the Manhattan skyline behind us',
       back:
-        'Beach volleyball at the pier, in the rain, in three layers, whenever the season says so. We show up. The name promises pressure and the team delivers none of it, which is the whole appeal.'
+        'Beach volleyball at the pier, in the rain, in three layers, whenever the season says so. We show up.'
     },
     {
       kind: 'gallery',
