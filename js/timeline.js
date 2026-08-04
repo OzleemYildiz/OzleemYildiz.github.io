@@ -124,7 +124,10 @@
         if (name !== 'journey' || opened) return;
         opened = true;
         var last = P.data.timeline.length - 1;
-        setTimeout(function () { select(last); }, 120);
+        setTimeout(function () {
+          // Do not stomp on a year the reader picked during the delay.
+          if (P.state.expandedYear === null) select(last);
+        }, 120);
       });
     },
 
@@ -132,7 +135,9 @@
       if (P.state.activeTab !== 'journey' || opened) return;
       opened = true;
       var last = P.data.timeline.length - 1;
-      setTimeout(function () { select(last); }, 240);
+      setTimeout(function () {
+        if (P.state.expandedYear === null) select(last);
+      }, 240);
     }
   };
 })(window.Portfolio = window.Portfolio || {});

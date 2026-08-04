@@ -60,14 +60,15 @@
     var i = tabs.indexOf(document.activeElement);
     if (i === -1) return;
 
+    // Horizontal tablist, so only Left and Right navigate. Claiming Up and Down
+    // would also mean calling preventDefault on them, which takes away the
+    // reader's ability to scroll the page from the tab bar.
     var next = null;
     switch (e.key) {
       case 'ArrowRight':
-      case 'ArrowDown':
         next = (i + 1) % tabs.length;
         break;
       case 'ArrowLeft':
-      case 'ArrowUp':
         next = (i - 1 + tabs.length) % tabs.length;
         break;
       case 'Home':

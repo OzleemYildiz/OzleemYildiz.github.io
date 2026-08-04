@@ -27,7 +27,8 @@
     var slides = card.gallery
       .map(function (shot, n) {
         return (
-          '<span class="shot' + (n === 0 ? ' is-on' : '') + '" data-shot="' + n + '">' +
+          '<span class="shot' + (n === 0 ? ' is-on' : '') + '" data-shot="' + n + '"' +
+          (n === 0 ? '' : ' aria-hidden="true"') + '>' +
           picture(shot.src, shot.alt) +
           '</span>'
         );
@@ -38,7 +39,8 @@
       .map(function (shot, n) {
         return (
           '<button class="dot' + (n === 0 ? ' is-on' : '') + '" type="button" ' +
-          'data-dot="' + n + '" aria-label="Photo ' + (n + 1) + ': ' + shot.alt + '"></button>'
+          'data-dot="' + n + '"' + (n === 0 ? ' aria-current="true"' : '') +
+          ' aria-label="Photo ' + (n + 1) + ': ' + shot.alt + '"></button>'
         );
       })
       .join('');
@@ -67,6 +69,28 @@
       '<span class="flip__hint">' + hint + '</span>' +
       '</button>'
     );
+  }
+
+  /* Only the visible face belongs in the accessibility tree. Under reduced
+     motion the card does not rotate and both faces are shown stacked, so both
+     stay exposed. */
+  function syncFaces(card, flipped) {
+    var front = card.querySelector('.flip__front');
+    var back = card.querySelector('.flip__back');
+    if (!front || !back) return;
+
+    if (P.state.reducedMotion) {
+      front.removeAttribute('aria-hidden');
+      back.removeAttribute('aria-hidden');
+      return;
+    }
+    if (flipped) {
+      front.setAttribute('aria-hidden', 'true');
+      back.removeAttribute('aria-hidden');
+    } else {
+      back.setAttribute('aria-hidden', 'true');
+      front.removeAttribute('aria-hidden');
+    }
   }
 
   function renderCard(card, i) {
@@ -110,8 +134,19 @@
     var index = ((n % shots.length) + shots.length) % shots.length;
 
     for (var i = 0; i < shots.length; i++) {
-      shots[i].classList.toggle('is-on', i === index);
-      if (dots[i]) dots[i].classList.toggle('is-on', i === index);
+      var on = i === index;
+      shots[i].classList.toggle('is-on', on);
+      // The off-screen slides are still in the DOM at opacity 0, so they have to
+      // be taken out of the accessibility tree or a screen reader announces all
+      // of them at once.
+      if (on) shots[i].removeAttribute('aria-hidden');
+      else shots[i].setAttribute('aria-hidden', 'true');
+
+      if (dots[i]) {
+        dots[i].classList.toggle('is-on', on);
+        if (on) dots[i].setAttribute('aria-current', 'true');
+        else dots[i].removeAttribute('aria-current');
+      }
     }
 
     var card = P.data.offDuty[Number(gal.dataset.gallery)];
@@ -130,6 +165,17 @@
         P.data.offDuty.map(renderCard).join('');
 
       var root = document.getElementById('offduty');
+
+      Array.prototype.forEach.call(document.querySelectorAll('.flip'), function (c) {
+        syncFaces(c, false);
+      });
+
+      // Reduced motion can be switched on mid-session; both faces then show.
+      P.state.on('motion', function () {
+        Array.prototype.forEach.call(document.querySelectorAll('.flip'), function (c) {
+          syncFaces(c, c.classList.contains('is-flipped'));
+        });
+      });
 
       /* Gallery controls come first and stop the click from reaching the card,
          so stepping through photos never flips the card underneath. */
@@ -169,6 +215,7 @@
         var flipped = card.classList.toggle('is-flipped');
         var cap = card.querySelector('.flip__cap');
         if (cap) cap.setAttribute('aria-expanded', String(flipped));
+        syncFaces(card, flipped);
 
         // A card carrying a link opens it on the second click, once its back is
         // showing, so the first click never navigates away unexpectedly.
@@ -186,6 +233,7 @@
             card.classList.remove('is-flipped');
             var cap = card.querySelector('.flip__cap');
             if (cap) cap.setAttribute('aria-expanded', 'false');
+            syncFaces(card, false);
           }
         );
       });
