@@ -1,0 +1,15 @@
+.DS_Store
+*.HEIC
+*.heic
+
+# Source photos live outside the repo; processed versions go in img/
+/IMG_*.jpg
+/000091050001.jpg
+/cfeba68a-*.JPG
+/31948DBC-*.JPG
+
+# Build byproducts from tools/build-images.sh
+/tools/.build/
+
+# Source copy; the tracked one is files/Resume_OzlemYildiz.pdf
+/Resume_July.pdf

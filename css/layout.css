@@ -1,0 +1,437 @@
+/* layout.css - page frame, tab bar, panels, breakpoints, print. */
+
+html {
+  background: var(--bg);
+}
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  font-size: 17px;
+  line-height: 1.65;
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* The particle canvas sits behind everything and never takes pointer events. */
+#particles {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* A soft accent glow anchored behind the masthead. Fixed and non-interactive,
+   so it reads as light in the room rather than as an element on the page. */
+body::before {
+  content: '';
+  position: fixed;
+  top: -220px;
+  left: 50%;
+  width: min(1100px, 130vw);
+  height: 620px;
+  transform: translateX(-50%);
+  background:
+    radial-gradient(closest-side, var(--accent-glow), transparent 72%);
+  opacity: 0.55;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.shell {
+  position: relative;
+  z-index: 1;
+  max-width: var(--page);
+  margin: 0 auto;
+  padding: 0 var(--s-5) var(--s-8);
+}
+
+/* ------------------------------------------------------------- skip link */
+
+.skip {
+  position: absolute;
+  left: var(--s-4);
+  top: -100px;
+  z-index: 100;
+  padding: var(--s-2) var(--s-4);
+  border-radius: var(--radius-sm);
+  background: var(--accent-solid);
+  color: var(--on-accent);
+  font-weight: 600;
+  text-decoration: none;
+  transition: top var(--dur) var(--ease);
+}
+
+.skip:focus {
+  top: var(--s-4);
+}
+
+/* ---------------------------------------------------------------- masthead */
+
+.masthead {
+  display: flex;
+  align-items: center;
+  gap: var(--s-5);
+  padding: var(--s-7) 0 var(--s-5);
+}
+
+.masthead__avatar {
+  flex: 0 0 auto;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid var(--line-strong);
+  box-shadow: var(--shadow);
+  background: var(--bg-sunken);
+}
+
+.masthead__avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.masthead__id {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.masthead__name {
+  font-size: clamp(1.7rem, 4.2vw, 2.3rem);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--text-strong);
+  font-weight: 700;
+}
+
+.masthead__role {
+  color: var(--accent-ink);
+  font-weight: 600;
+  font-size: 0.98rem;
+  letter-spacing: 0.01em;
+}
+
+.masthead__tools {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+}
+
+/* ---------------------------------------------------------------- tab bar */
+
+.tabbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  margin: 0 calc(var(--s-5) * -1);
+  padding: 0 var(--s-5);
+  background: color-mix(in srgb, var(--bg) 86%, transparent);
+  backdrop-filter: saturate(160%) blur(12px);
+  -webkit-backdrop-filter: saturate(160%) blur(12px);
+  border-bottom: 1px solid var(--line);
+}
+
+.tablist {
+  position: relative;
+  display: flex;
+  gap: var(--s-1);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.tablist::-webkit-scrollbar {
+  display: none;
+}
+
+.tab {
+  position: relative;
+  flex: 0 0 auto;
+  padding: var(--s-4) var(--s-3) calc(var(--s-4) - 2px);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--muted);
+  white-space: nowrap;
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  transition: color var(--dur) var(--ease), background-color var(--dur) var(--ease);
+}
+
+.tab:hover {
+  color: var(--text);
+  background: var(--accent-wash);
+}
+
+.tab[aria-selected='true'] {
+  color: var(--accent-ink);
+}
+
+/* One shared underline that slides, rather than a border per tab. */
+.tablist__indicator {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  background: var(--accent);
+  border-radius: 2px 2px 0 0;
+  transition: transform var(--dur) var(--ease), width var(--dur) var(--ease);
+  will-change: transform, width;
+}
+
+/* --------------------------------------------------------------- panels */
+
+.panel {
+  display: none;
+  padding-top: var(--s-7);
+}
+
+.panel.is-active {
+  display: block;
+}
+
+/* A small rise on tab change. Applied per activation by tabs.js.
+ *
+ * Transform only, deliberately. An earlier version faded opacity from 0, which
+ * meant a panel rendered invisible whenever the animation clock was not
+ * advancing: a running animation reports its 0% keyframe, and in a throttled or
+ * non-visible view it can sit there indefinitely. Timers are throttled in that
+ * same state, so no JS fallback can rescue it either. Keeping opacity out of
+ * the keyframes makes the worst case a harmless 8px offset instead of blank
+ * content. */
+.panel.is-entering {
+  animation: panel-in 190ms var(--ease);
+}
+
+@keyframes panel-in {
+  from {
+    transform: translateY(8px);
+  }
+  to {
+    transform: none;
+  }
+}
+
+.panel > * + * {
+  margin-top: var(--s-6);
+}
+
+/* --------------------------------------------------------------- headings */
+
+/* Small caps label with a rule that fades out to the right. */
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--faint);
+  margin-bottom: var(--s-4);
+}
+
+.section-title::after {
+  content: '';
+  flex: 1 1 auto;
+  height: 1px;
+  background: linear-gradient(to right, var(--line), transparent);
+}
+
+h2.head {
+  font-size: clamp(1.4rem, 3vw, 1.75rem);
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  color: var(--text-strong);
+  font-weight: 700;
+}
+
+h3.subhead {
+  font-size: 1.1rem;
+  line-height: 1.35;
+  color: var(--text-strong);
+  font-weight: 650;
+}
+
+.prose {
+  max-width: var(--measure);
+}
+
+.prose p + p {
+  margin-top: var(--s-4);
+}
+
+.lede {
+  font-size: clamp(1.2rem, 2.7vw, 1.55rem);
+  line-height: 1.42;
+  color: var(--text-strong);
+  max-width: 40ch;
+  font-weight: 700;
+  letter-spacing: -0.022em;
+  text-wrap: balance;
+}
+
+/* The lede is the first thing read, so it gets a little colour on the tail. */
+.lede em {
+  font-style: normal;
+  color: var(--accent-ink);
+}
+
+/* ----------------------------------------------------------------- footer */
+
+.foot {
+  margin-top: var(--s-8);
+  padding-top: var(--s-5);
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-4);
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.88rem;
+  color: var(--faint);
+}
+
+.foot a {
+  color: var(--muted);
+}
+
+.foot a:hover {
+  color: var(--accent-ink);
+}
+
+/* ------------------------------------------------------------ focus rings */
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+/* ---------------------------------------------------------- breakpoints */
+
+@media (max-width: 720px) {
+  body {
+    font-size: 16px;
+  }
+
+  .shell {
+    padding: 0 var(--s-4) var(--s-7);
+  }
+
+  .tabbar {
+    margin: 0 calc(var(--s-4) * -1);
+    padding: 0 var(--s-4);
+  }
+
+  .masthead {
+    flex-wrap: wrap;
+    padding-top: var(--s-5);
+    gap: var(--s-4);
+  }
+
+  .masthead__avatar {
+    width: 68px;
+    height: 68px;
+  }
+
+  .masthead__tools {
+    order: 3;
+    width: 100%;
+  }
+}
+
+/* ---------------------------------------------------------------- print */
+
+/* Printing should produce the whole CV, not whichever tab happened to be open. */
+@media print {
+  :root {
+    --bg: #fff;
+    --bg-panel: #fff;
+    --bg-raised: #fff;
+    --bg-sunken: #fff;
+    --text: #000;
+    --text-strong: #000;
+    --muted: #333;
+    --faint: #555;
+    --line: #bbb;
+    --accent: #000;
+    --accent-ink: #000;
+    --shadow: none;
+    --shadow-lift: none;
+  }
+
+  #particles,
+  .tabbar,
+  .skip,
+  .theme-toggle,
+  .filterbar,
+  .foot {
+    display: none !important;
+  }
+
+  .panel {
+    display: block !important;
+    page-break-inside: auto;
+    padding-top: var(--s-5);
+  }
+
+  .panel::before {
+    content: attr(data-print-title);
+    display: block;
+    font-size: 1.3rem;
+    font-weight: 700;
+    border-bottom: 2px solid #000;
+    padding-bottom: 4px;
+    margin-bottom: var(--s-4);
+  }
+
+  /* Flip cards print flat, showing the front only. */
+  .flip__inner {
+    transform: none !important;
+  }
+
+  .flip__back {
+    display: none !important;
+  }
+
+  .card,
+  .pub {
+    break-inside: avoid;
+    box-shadow: none;
+    border: 1px solid #bbb;
+  }
+
+  a {
+    text-decoration: underline;
+  }
+
+  /* Make link targets recoverable on paper. */
+  .prose a[href^='http']::after,
+  .pub a[href^='http']::after {
+    content: ' (' attr(href) ')';
+    font-size: 0.75em;
+    color: #555;
+    word-break: break-all;
+  }
+}
+
+/* -------------------------------------------------------- reduced motion */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  #particles {
+    display: none;
+  }
+}

@@ -1,0 +1,140 @@
+/* theme.css - colour, type and spacing tokens.
+ *
+ * Dark is the default. main.js stamps data-theme="light" or "dark" on <html>
+ * from localStorage before first paint, so there is no flash of the wrong theme.
+ *
+ * Every text colour clears 4.5:1 against BOTH the panel and the page behind it,
+ * measured rather than eyeballed. The tightest pairs:
+ *   dark  --faint  #7A8EA4 on --bg-panel #141E2E -> 4.97
+ *   dark  --on-accent #04211E on --accent-solid  -> 4.52
+ *   light --faint  #5C6F84 on --bg #F4F7FA       -> 4.81
+ *   light --on-accent #FFFFFF on --accent-solid  -> 5.80
+ * Light mode uses teal-700 as the solid fill, not teal-600: white on teal-600
+ * only reaches 3.74, which is why the two themes differ here.
+ */
+
+:root {
+  /* type */
+  --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+
+  /* spacing scale */
+  --s-1: 0.25rem;
+  --s-2: 0.5rem;
+  --s-3: 0.75rem;
+  --s-4: 1rem;
+  --s-5: 1.5rem;
+  --s-6: 2rem;
+  --s-7: 3rem;
+  --s-8: 4rem;
+
+  --radius: 14px;
+  --radius-sm: 8px;
+  --radius-pill: 999px;
+
+  --measure: 68ch;
+  --page: 1040px;
+
+  --ease: cubic-bezier(0.22, 0.68, 0.35, 1);
+  --dur: 180ms;
+
+  /* Teal ramp, shared by both themes. */
+  --teal-300: #5EEAD4;
+  --teal-400: #2DD4BF;
+  --teal-500: #14B8A6;
+  --teal-600: #0D9488;
+  --teal-700: #0B7268;
+
+  /* Off-Duty swaps the accent to plant green so it reads as a different room. */
+  --green-400: #4ADE80;
+  --green-600: #16A34A;
+  --green-700: #15803D;
+
+  --gold: #FBBF24;
+}
+
+:root,
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --bg: #0B131F;
+  --bg-panel: #141E2E;
+  --bg-raised: #1B2941;
+  --bg-sunken: #0F1826;
+
+  --text: #E9EFF4;
+  --text-strong: #FFFFFF;
+  --muted: #9CB0C4;
+  --faint: #7A8EA4;
+
+  --line: #263449;
+  --line-strong: #35496A;
+
+  --accent: var(--teal-400);
+  --accent-ink: var(--teal-300);
+  --accent-solid: var(--teal-600);
+  --on-accent: #04211E;
+  --accent-wash: rgba(45, 212, 191, 0.11);
+  --accent-glow: rgba(45, 212, 191, 0.28);
+
+  --alt-accent: var(--green-400);
+  --alt-accent-ink: var(--green-400);
+  --alt-wash: rgba(74, 222, 128, 0.11);
+  --alt-glow: rgba(74, 222, 128, 0.28);
+
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.5), 0 8px 24px rgba(0, 0, 0, 0.38);
+  --shadow-lift: 0 2px 4px rgba(0, 0, 0, 0.5), 0 18px 44px rgba(0, 0, 0, 0.5);
+
+  --particle: 45, 212, 191;
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+
+  --bg: #F4F7FA;
+  --bg-panel: #FFFFFF;
+  --bg-raised: #FFFFFF;
+  --bg-sunken: #EAEFF5;
+
+  --text: #16202E;
+  --text-strong: #070D16;
+  --muted: #4F6377;
+  --faint: #5C6F84;
+
+  --line: #D9E2EC;
+  --line-strong: #BCCBDA;
+
+  --accent: var(--teal-700);
+  --accent-ink: var(--teal-700);
+  --accent-solid: var(--teal-700);
+  --on-accent: #FFFFFF;
+  --accent-wash: rgba(13, 148, 136, 0.09);
+  --accent-glow: rgba(13, 148, 136, 0.22);
+
+  --alt-accent: var(--green-700);
+  --alt-accent-ink: var(--green-700);
+  --alt-wash: rgba(21, 128, 61, 0.09);
+  --alt-glow: rgba(21, 128, 61, 0.22);
+
+  --shadow: 0 1px 2px rgba(16, 32, 48, 0.06), 0 8px 22px rgba(16, 32, 48, 0.08);
+  --shadow-lift: 0 2px 4px rgba(16, 32, 48, 0.08), 0 18px 40px rgba(16, 32, 48, 0.14);
+
+  --particle: 13, 148, 136;
+}
+
+/* Held for two frames while the theme swaps. See state.js setTheme: an element
+   mid-transition on a var-derived colour will otherwise keep the old theme's
+   value in WebKit. */
+:root.theme-switching *,
+:root.theme-switching *::before,
+:root.theme-switching *::after {
+  transition: none !important;
+}
+
+/* The Off-Duty panel rebinds the accent rather than restating every rule. */
+#panel-offduty {
+  --accent: var(--alt-accent);
+  --accent-ink: var(--alt-accent-ink);
+  --accent-wash: var(--alt-wash);
+  --accent-glow: var(--alt-glow);
+}

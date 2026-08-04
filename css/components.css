@@ -1,0 +1,1180 @@
+/* components.css - cards, stats, radar, timeline, pills, flip cards, confetti. */
+
+/* ---------------------------------------------------------------- buttons */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  padding: var(--s-2) var(--s-4);
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--line-strong);
+  background: var(--bg-panel);
+  color: var(--text);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  /* background-color, not the `background` shorthand: WebKit will not
+     re-resolve a var-derived value that a shorthand transition is watching, so
+     the shorthand form leaves these buttons stuck on the old theme's colour. */
+  transition: border-color var(--dur) var(--ease),
+    background-color var(--dur) var(--ease), transform var(--dur) var(--ease);
+}
+
+.btn:hover {
+  border-color: var(--accent);
+  background: var(--accent-wash);
+  transform: translateY(-1px);
+}
+
+.btn--primary {
+  background: var(--accent-solid);
+  border-color: var(--accent-solid);
+  color: var(--on-accent);
+}
+
+.btn--primary:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
+}
+
+.btn svg {
+  width: 15px;
+  height: 15px;
+  flex: 0 0 auto;
+}
+
+.theme-toggle {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid var(--line-strong);
+  background: var(--bg-panel);
+  color: var(--muted);
+  transition: color var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+
+.theme-toggle:hover {
+  color: var(--accent-ink);
+  border-color: var(--accent);
+}
+
+.theme-toggle svg {
+  width: 19px;
+  height: 19px;
+  transition: transform 420ms var(--ease);
+}
+
+.theme-toggle:hover svg {
+  transform: rotate(35deg);
+}
+
+/* The sun and moon share the button; only one shows per theme. */
+.theme-toggle .icon-moon {
+  display: none;
+}
+
+:root[data-theme='light'] .theme-toggle .icon-sun {
+  display: none;
+}
+
+:root[data-theme='light'] .theme-toggle .icon-moon {
+  display: block;
+}
+
+/* ------------------------------------------------------------------ cards */
+
+.card {
+  background: var(--bg-panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: var(--s-5);
+  box-shadow: var(--shadow);
+}
+
+.card--accent {
+  border-color: var(--accent);
+  box-shadow: var(--shadow), 0 0 0 1px var(--accent-wash);
+}
+
+.grid {
+  display: grid;
+  gap: var(--s-4);
+}
+
+.grid--2 {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.grid--3 {
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+}
+
+/* ------------------------------------------------------------------ stats */
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--s-3);
+}
+
+.stat {
+  position: relative;
+  background: var(--bg-panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: var(--s-4);
+  cursor: help;
+  transition: border-color var(--dur) var(--ease), transform var(--dur) var(--ease);
+}
+
+.stat:hover,
+.stat:focus-visible {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.stat__value {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--accent-ink);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+.stat__label {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+/* The dry aside only appears on hover or keyboard focus. */
+.stat__note {
+  display: block;
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: var(--faint);
+  transition: max-height 240ms var(--ease), opacity 240ms var(--ease),
+    margin-top 240ms var(--ease);
+}
+
+.stat:hover .stat__note,
+.stat:focus-visible .stat__note,
+.stat:focus-within .stat__note {
+  max-height: 6em;
+  opacity: 1;
+  margin-top: var(--s-2);
+}
+
+/* --------------------------------------------------------------- pipeline */
+
+.pipeline {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.pipeline__box {
+  fill: var(--bg-raised);
+  stroke: var(--line-strong);
+  stroke-width: 1;
+}
+
+.pipeline__label {
+  fill: var(--text);
+  font-family: var(--font);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.pipeline__flow {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 7 9;
+}
+
+/* Only animate once the panel is actually visible, so the dash offset does not
+   drift while the tab is hidden. */
+.is-active .pipeline__flow {
+  animation: flow 1.4s linear infinite;
+}
+
+@keyframes flow {
+  to {
+    stroke-dashoffset: -32;
+  }
+}
+
+.pipeline__loop {
+  fill: none;
+  stroke: var(--faint);
+  stroke-width: 1.5;
+  stroke-dasharray: 3 5;
+}
+
+.pipeline__looplabel {
+  fill: var(--faint);
+  font-family: var(--font);
+  font-size: 10.5px;
+  font-style: italic;
+}
+
+/* ------------------------------------------------------------- flip cards */
+
+.flip {
+  perspective: 1200px;
+  background: none;
+  border: 0;
+  padding: 0;
+  text-align: left;
+  width: 100%;
+  /* Fill the grid row so every card in a row is the same height. */
+  height: 100%;
+  border-radius: var(--radius);
+}
+
+/* display:block matters. These are <span>s, and an inline element is not a
+   usable containing block for the absolutely positioned back face: inset:0
+   resolves against a fragmented inline box and the back leaks out below the
+   card as a mirrored sliver. preserve-3d and min-height are also ignored on an
+   inline box. */
+.flip__inner {
+  display: block;
+  position: relative;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 520ms var(--ease);
+  min-height: 300px;
+}
+
+.flip:hover .flip__inner,
+.flip.is-flipped .flip__inner {
+  transform: rotateY(180deg);
+}
+
+/* Face visibility is driven by opacity, not by backface-visibility alone.
+ *
+ * WebKit renders a preserve-3d subtree into a CATransformLayer and does not
+ * reliably honour backface-visibility there, which leaves the rotated back face
+ * painting on top of the front: every card reads as mirrored text. Swapping
+ * opacity at the midpoint of the rotation gives the same effect and cannot be
+ * ignored. backface-visibility stays as a belt-and-braces for engines that do
+ * honour it. */
+.flip__face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: var(--bg-panel);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  /* Instant swap, delayed to the halfway point of the 520ms flip. */
+  transition: opacity 0s linear 250ms;
+}
+
+.flip__front {
+  opacity: 1;
+}
+
+.flip__back {
+  transform: rotateY(180deg);
+  opacity: 0;
+  padding: var(--s-5);
+  justify-content: center;
+  gap: var(--s-3);
+}
+
+.flip:hover .flip__front,
+.flip.is-flipped .flip__front {
+  opacity: 0;
+}
+
+.flip:hover .flip__back,
+.flip.is-flipped .flip__back {
+  opacity: 1;
+}
+
+.flip__back p {
+  font-size: 0.93rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+/* Both faces are absolute; the card's height comes from .flip__inner's
+   min-height and from stretching to its grid row, which also keeps every card
+   in a row the same size. */
+
+/* All of the inner pieces are <span>s too, so each needs an explicit display
+   or it lays out as inline text instead of a flex child. */
+.flip__media {
+  display: block;
+  flex: 1 1 auto;
+  min-height: 0;
+  background: var(--bg-sunken);
+}
+
+.flip__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.flip__cap {
+  flex: 0 0 auto;
+  /* Sits at the foot of the card even when there is no image above it to take
+     up the slack. */
+  margin-top: auto;
+  padding: var(--s-3) var(--s-4);
+  border-top: 1px solid var(--line);
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: var(--text-strong);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-2);
+}
+
+.flip__hint {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--faint);
+  white-space: nowrap;
+}
+
+.flip__icon {
+  display: block;
+  padding: var(--s-6) var(--s-5) var(--s-3);
+  color: var(--accent-ink);
+}
+
+.flip__icon svg {
+  width: 30px;
+  height: 30px;
+}
+
+.flip__front .flip__lead {
+  display: block;
+  padding: 0 var(--s-5) var(--s-5);
+  font-size: 1.02rem;
+  font-weight: 600;
+  color: var(--text-strong);
+  line-height: 1.4;
+}
+
+/* ---------------------------------------------------- gallery inside a card */
+
+.gal {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.gal__stack {
+  position: relative;
+  display: block;
+  flex: 1 1 auto;
+  min-height: 0;
+  background: var(--bg-sunken);
+  overflow: hidden;
+}
+
+.shot {
+  position: absolute;
+  inset: 0;
+  display: block;
+  opacity: 0;
+  transition: opacity 260ms var(--ease);
+}
+
+.shot.is-on {
+  opacity: 1;
+}
+
+.shot picture,
+.shot img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.gal__nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-2);
+  padding: var(--s-2) var(--s-3) 0;
+}
+
+.gal__arrow {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  color: var(--muted);
+  transition: color var(--dur) var(--ease), background-color var(--dur) var(--ease);
+}
+
+.gal__arrow:hover {
+  color: var(--accent-ink);
+  background: var(--accent-wash);
+}
+
+.gal__dots {
+  display: flex;
+  gap: 6px;
+}
+
+.dot {
+  display: block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--line-strong);
+  transition: background-color var(--dur) var(--ease), transform var(--dur) var(--ease);
+}
+
+.dot.is-on {
+  background: var(--accent);
+  transform: scale(1.3);
+}
+
+.gal__caption {
+  display: block;
+  padding: var(--s-1) var(--s-4) var(--s-2);
+  font-size: 0.8rem;
+  line-height: 1.4;
+  color: var(--faint);
+  min-height: 2.2em;
+}
+
+.flip__teaser {
+  display: block;
+  padding: 0 var(--s-5) var(--s-4);
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+.flip__link {
+  display: block;
+  align-self: flex-start;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--accent-ink);
+}
+
+/* Plant cards get a nudge that they are clickable. */
+.flip--plant .flip__front::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius);
+  box-shadow: inset 0 0 0 0 var(--accent-glow);
+  transition: box-shadow var(--dur) var(--ease);
+  pointer-events: none;
+}
+
+.flip--plant:hover .flip__front::after {
+  box-shadow: inset 0 0 0 3px var(--accent-glow);
+}
+
+/* -------------------------------------------------------------- work list */
+
+.role {
+  display: grid;
+  gap: var(--s-2);
+}
+
+.role__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2) var(--s-3);
+  align-items: baseline;
+  font-size: 0.86rem;
+  color: var(--faint);
+}
+
+.role__org {
+  color: var(--accent-ink);
+  font-weight: 700;
+}
+
+.bullets {
+  display: grid;
+  gap: var(--s-3);
+  margin-top: var(--s-2);
+}
+
+.bullets li {
+  position: relative;
+  padding-left: var(--s-5);
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.bullets li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.62em;
+  width: 7px;
+  height: 7px;
+  border-radius: 2px;
+  background: var(--accent);
+}
+
+/* --------------------------------------------------------- publications */
+
+.filterbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+}
+
+.chip {
+  padding: var(--s-2) var(--s-4);
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--line-strong);
+  background: var(--bg-panel);
+  color: var(--muted);
+  font-size: 0.86rem;
+  font-weight: 600;
+  transition: all var(--dur) var(--ease);
+}
+
+.chip:hover {
+  border-color: var(--accent);
+  color: var(--text);
+}
+
+.chip[aria-pressed='true'] {
+  background: var(--accent-solid);
+  border-color: var(--accent-solid);
+  color: var(--on-accent);
+}
+
+.publist {
+  display: grid;
+  gap: var(--s-3);
+}
+
+.pub {
+  background: var(--bg-panel);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius-sm);
+  padding: var(--s-4) var(--s-5);
+  animation: pub-in 260ms var(--ease) both;
+}
+
+@keyframes pub-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.pub__title {
+  font-size: 1rem;
+  font-weight: 650;
+  line-height: 1.4;
+  color: var(--text-strong);
+}
+
+.pub__title a {
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+}
+
+.pub__title a:hover {
+  color: var(--accent-ink);
+  border-bottom-color: var(--accent);
+}
+
+.pub__authors {
+  margin-top: var(--s-2);
+  font-size: 0.88rem;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.pub__authors .me {
+  color: var(--text-strong);
+  font-weight: 700;
+}
+
+.pub__venue {
+  margin-top: var(--s-1);
+  font-size: 0.85rem;
+  color: var(--faint);
+  font-style: italic;
+}
+
+.pub__extras {
+  margin-top: var(--s-3);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+}
+
+.pub__extras a {
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 2px var(--s-3);
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--line-strong);
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.pub__extras a:hover {
+  border-color: var(--accent);
+  color: var(--accent-ink);
+}
+
+.pub__abstract {
+  margin-top: var(--s-3);
+}
+
+.pub__abstract summary {
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--accent-ink);
+  list-style: none;
+}
+
+.pub__abstract summary::-webkit-details-marker {
+  display: none;
+}
+
+.pub__abstract summary::before {
+  content: '+ ';
+}
+
+.pub__abstract[open] summary::before {
+  content: '- ';
+}
+
+.pub__abstract p {
+  margin-top: var(--s-2);
+  font-size: 0.88rem;
+  line-height: 1.65;
+  color: var(--muted);
+}
+
+.empty {
+  padding: var(--s-6);
+  text-align: center;
+  color: var(--faint);
+  font-size: 0.92rem;
+}
+
+/* ------------------------------------------------------------------ pills */
+
+.pillgroup + .pillgroup {
+  margin-top: var(--s-5);
+}
+
+.pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+  margin-top: var(--s-3);
+}
+
+.pill {
+  padding: 3px var(--s-3);
+  border-radius: var(--radius-pill);
+  background: var(--accent-wash);
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+  color: var(--accent-ink);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+/* ------------------------------------------------------------------ radar */
+
+.radarwrap {
+  display: grid;
+  place-items: center;
+  gap: var(--s-3);
+}
+
+.radar {
+  width: 100%;
+  max-width: 420px;
+  height: auto;
+  overflow: visible;
+}
+
+.radar__web {
+  fill: none;
+  stroke: var(--line);
+  stroke-width: 1;
+}
+
+.radar__spoke {
+  stroke: var(--line);
+  stroke-width: 1;
+}
+
+.radar__shape {
+  fill: var(--accent);
+  fill-opacity: 0.2;
+  stroke: var(--accent);
+  stroke-width: 2;
+  stroke-linejoin: round;
+}
+
+.radar__dot {
+  fill: var(--accent);
+}
+
+.radar__label {
+  fill: var(--muted);
+  font-family: var(--font);
+  font-size: 10.5px;
+  font-weight: 600;
+}
+
+.radar__label.is-hot {
+  fill: var(--accent-ink);
+}
+
+.radar__caption {
+  font-size: 0.8rem;
+  color: var(--faint);
+  text-align: center;
+  max-width: 42ch;
+}
+
+/* --------------------------------------------------------------- journey */
+
+.journey {
+  display: grid;
+  gap: var(--s-6);
+  align-items: start;
+}
+
+@media (min-width: 900px) {
+  .journey {
+    grid-template-columns: 1fr 420px;
+  }
+
+  .journey__radar {
+    position: sticky;
+    top: 84px;
+  }
+}
+
+@media (max-width: 899px) {
+  /* On narrow screens the radar leads, so the shape is on screen while you tap
+     through the years below it. */
+  .journey__radar {
+    order: -1;
+    position: sticky;
+    top: 56px;
+    z-index: 5;
+    background: color-mix(in srgb, var(--bg) 92%, transparent);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    padding: var(--s-3) 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .radar {
+    max-width: 300px;
+  }
+}
+
+.timeline {
+  position: relative;
+  display: grid;
+  gap: var(--s-2);
+  padding-left: var(--s-6);
+}
+
+/* The spine. */
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 7px;
+  top: 12px;
+  bottom: 12px;
+  width: 2px;
+  background: var(--line);
+}
+
+.tnode {
+  position: relative;
+  display: grid;
+  gap: 1px;
+  justify-items: start;
+  width: 100%;
+  text-align: left;
+  padding: var(--s-3) var(--s-4);
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  transition: background-color var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+
+.tnode:hover {
+  background: var(--accent-wash);
+}
+
+.tnode[aria-expanded='true'] {
+  background: var(--bg-panel);
+  border-color: var(--line);
+}
+
+/* The bead on the spine. */
+.tnode::before {
+  content: '';
+  position: absolute;
+  left: calc(var(--s-6) * -1 + 2px);
+  top: 1.35em;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 2px solid var(--line-strong);
+  transition: border-color var(--dur) var(--ease), background-color var(--dur) var(--ease);
+}
+
+.tnode:hover::before,
+.tnode[aria-expanded='true']::before {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.tnode[aria-expanded='true']::before {
+  animation: pulse 1.9s var(--ease) infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 var(--accent-glow);
+  }
+  50% {
+    box-shadow: 0 0 0 7px transparent;
+  }
+}
+
+.tnode__year {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--accent-ink);
+  letter-spacing: 0.04em;
+}
+
+.tnode__title {
+  font-size: 0.98rem;
+  font-weight: 650;
+  color: var(--text-strong);
+  line-height: 1.35;
+}
+
+.tnode__org {
+  font-size: 0.84rem;
+  color: var(--faint);
+}
+
+.tnode__now {
+  display: inline-block;
+  margin-left: var(--s-2);
+  padding: 0 7px;
+  border-radius: var(--radius-pill);
+  background: var(--accent-solid);
+  color: var(--on-accent);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  vertical-align: 2px;
+}
+
+.tdetail {
+  overflow: hidden;
+  padding: 0 var(--s-4);
+  max-height: 0;
+  opacity: 0;
+  transition: max-height 320ms var(--ease), opacity 220ms var(--ease),
+    padding 320ms var(--ease);
+}
+
+.tdetail.is-open {
+  max-height: 1400px;
+  opacity: 1;
+  padding: var(--s-2) var(--s-4) var(--s-5);
+}
+
+.tdetail p {
+  font-size: 0.92rem;
+  line-height: 1.65;
+  color: var(--muted);
+  max-width: 60ch;
+}
+
+.tdetail__photos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: var(--s-3);
+  margin-top: var(--s-4);
+}
+
+.tdetail__photos figure {
+  margin: 0;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--bg-sunken);
+}
+
+.tdetail__photos img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.tdetail__photos figcaption {
+  padding: var(--s-2) var(--s-3);
+  font-size: 0.76rem;
+  line-height: 1.45;
+  color: var(--faint);
+}
+
+/* ---------------------------------------------------------------- goals */
+
+.goals {
+  display: grid;
+  gap: var(--s-4);
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+}
+
+.goal {
+  position: relative;
+  display: grid;
+  gap: var(--s-3);
+  align-content: start;
+  background: var(--bg-panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: var(--s-5);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  transition: transform var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+
+/* A quiet accent bar that fills in on hover, so the cards feel alive without
+   anything moving on the page. */
+.goal::before {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+  background: var(--accent);
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 320ms var(--ease);
+}
+
+.goal:hover::before,
+.goal.is-hit::before {
+  transform: scaleY(1);
+}
+
+.goal:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent);
+}
+
+/* Fired by the "yes" easter egg on the What's next tab. */
+.goal.is-hit {
+  animation: goal-pop 620ms var(--ease);
+  border-color: var(--accent);
+}
+
+@keyframes goal-pop {
+  40% {
+    transform: translateY(-8px) scale(1.02);
+  }
+  100% {
+    transform: none;
+  }
+}
+
+.goal__icon {
+  display: block;
+  color: var(--accent-ink);
+}
+
+.goal__icon svg {
+  width: 26px;
+  height: 26px;
+}
+
+.goal p {
+  font-size: 0.94rem;
+  line-height: 1.65;
+  color: var(--muted);
+}
+
+.closing {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-strong);
+  max-width: 46ch;
+}
+
+.egg-hint {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  color: var(--faint);
+}
+
+.egg-hint kbd {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  padding: 1px 6px;
+  border-radius: 5px;
+  border: 1px solid var(--line-strong);
+  border-bottom-width: 2px;
+  background: var(--bg-raised);
+  color: var(--muted);
+}
+
+/* ------------------------------------------------- research section nav */
+
+.filterbar--lead {
+  padding-bottom: var(--s-2);
+  border-bottom: 1px solid var(--line);
+}
+
+.rsection > * + * {
+  margin-top: var(--s-4);
+}
+
+/* -------------------------------------------------------------- contact */
+
+.contact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-3);
+}
+
+/* -------------------------------------------------------------- confetti */
+
+#confetti {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  pointer-events: none;
+}
+
+.quip {
+  position: fixed;
+  z-index: 91;
+  padding: var(--s-2) var(--s-4);
+  border-radius: var(--radius-pill);
+  background: var(--bg-raised);
+  border: 1px solid var(--accent);
+  color: var(--text-strong);
+  font-size: 0.86rem;
+  font-weight: 600;
+  box-shadow: var(--shadow-lift);
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  animation: quip 1500ms var(--ease) both;
+  white-space: nowrap;
+}
+
+@keyframes quip {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -30%) scale(0.9);
+  }
+  15% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  75% {
+    opacity: 1;
+    transform: translate(-50%, -60%) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -80%) scale(0.97);
+  }
+}
+
+/* Hover-flip is a nice touch on a mouse and a trap on a touchscreen, where the
+   first tap would flip and the second would fire the confetti. */
+@media (hover: none) {
+  .flip:hover .flip__inner {
+    transform: none;
+  }
+
+  .flip.is-flipped .flip__inner {
+    transform: rotateY(180deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* No rotation, so both faces stack and both must stay visible and opaque.
+     This has to undo the opacity swap above, not just the transform. */
+  .flip__inner {
+    transform: none !important;
+    min-height: 0;
+    height: auto;
+  }
+
+  .flip__face,
+  .flip:hover .flip__front,
+  .flip.is-flipped .flip__front,
+  .flip:hover .flip__back,
+  .flip.is-flipped .flip__back {
+    position: relative;
+    opacity: 1;
+    transition: none;
+    backface-visibility: visible;
+    -webkit-backface-visibility: visible;
+  }
+
+  .flip__back {
+    transform: none;
+    border-top: 0;
+    margin-top: -1px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+
+  .tdetail {
+    transition: none;
+  }
+}
