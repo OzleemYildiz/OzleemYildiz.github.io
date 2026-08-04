@@ -1,4 +1,5 @@
-/* publications.js - filterable publication list, plus patents and thesis. */
+/* publications.js - the Research tab: publications, patents, thesis, talks and
+ * teaching, each its own section so none of them sits below the fold. */
 (function (P) {
   'use strict';
 
@@ -82,8 +83,8 @@
       .join('');
   }
 
-  /* Research splits into three views. Patents and the thesis were previously
-     below the fold, where nobody scrolled to find them. */
+  /* Research splits into five views. Everything after publications used to sit
+     below the fold, where nobody scrolled to find it. */
   function initSections() {
     var nav = document.getElementById('research-nav');
     var sections = Array.prototype.slice.call(
@@ -148,6 +149,42 @@
             pt.title + '</a></h3>' +
             '<p class="pub__authors">' + authorLine(pt.authors) + '</p>' +
             '<p class="pub__venue">' + pt.number + '. ' + pt.filed + '</p>' +
+            '</article>'
+          );
+        })
+        .join('');
+
+      /* ------------------------------------------------------------ talks */
+
+      document.getElementById('talks').innerHTML = P.data.talks
+        .map(function (t) {
+          var links = (t.links || [])
+            .map(function (l) {
+              return '<a href="' + l.url + '" target="_blank" rel="noopener noreferrer">' +
+                l.label + '</a>';
+            })
+            .join('');
+          return (
+            '<article class="pub">' +
+            '<h3 class="pub__title">' + t.title + '</h3>' +
+            '<p class="pub__authors">' + t.kind + '</p>' +
+            '<p class="pub__venue">' + t.venue + ', ' + t.year + '</p>' +
+            (t.award ? '<p class="pub__award">' + t.award + '</p>' : '') +
+            (links ? '<div class="pub__extras">' + links + '</div>' : '') +
+            '</article>'
+          );
+        })
+        .join('');
+
+      /* --------------------------------------------------------- teaching */
+
+      document.getElementById('teaching').innerHTML = P.data.teaching
+        .map(function (t) {
+          return (
+            '<article class="pub">' +
+            '<h3 class="pub__title">' + t.course + '</h3>' +
+            '<p class="pub__authors">' + t.role + ', ' + t.school + '</p>' +
+            '<p class="pub__venue">' + t.note + '</p>' +
             '</article>'
           );
         })

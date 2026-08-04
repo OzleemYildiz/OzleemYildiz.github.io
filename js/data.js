@@ -198,6 +198,60 @@
     }
   ];
 
+  P.data.teaching = [
+    {
+      course: 'Introduction to Probability and Stochastic Processes',
+      school: 'NYU Tandon',
+      role: 'Teaching assistant',
+      note: 'With Prof. Elza Erkip. Graduate core course.'
+    },
+    {
+      course: 'Machine Learning',
+      school: 'NYU Tandon',
+      role: 'Teaching assistant',
+      note: 'With Prof. Christopher Musco.'
+    },
+    {
+      course: 'Algorithms and Programming 1',
+      school: 'Bilkent University',
+      role: 'Teaching assistant',
+      note: 'Undergraduate, first-year programming.'
+    },
+    {
+      course: 'Microprocessors',
+      school: 'Bilkent University',
+      role: 'Teaching assistant',
+      note: 'Undergraduate, hardware and assembly.'
+    }
+  ];
+
+  P.data.talks = [
+    {
+      title: 'Hybrid Beam Alignment for Multi-Path Channels: A Group Testing Viewpoint',
+      venue: 'IEEE Asilomar Conference on Signals, Systems, and Computers',
+      year: 2022,
+      kind: 'Conference talk and poster',
+      links: [
+        { label: 'Slides', url: 'files/BA_pres.pdf' },
+        { label: 'Poster', url: 'files/BA_poster.pdf' }
+      ]
+    },
+    {
+      title: 'Investigation and Optimization of Secrecy Capacity for IRS-Assisted Secure mmWave Indoor Wireless Communication',
+      venue: 'IEEE Radio and Wireless Symposium',
+      year: 2023,
+      kind: 'Conference talk',
+      links: [{ label: 'Slides', url: 'files/RIS_pres.pdf' }]
+    },
+    {
+      title: 'ML-based optimization of 3D frequency-dependent beamforming',
+      venue: 'Samsung Research America intern symposium',
+      year: 2023,
+      kind: 'Poster',
+      award: 'Best Poster Award among all intern final presentations'
+    }
+  ];
+
   P.data.thesis = {
     title: 'Hardware-Aware Design and Optimization for Millimeter Wave and Sub-Terahertz Wireless Systems',
     school: 'NYU Tandon School of Engineering',
