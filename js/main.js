@@ -21,6 +21,7 @@
 
     P.tabs.init();
     P.particles.init();
+    P.vine.init();
     P.easterEgg.init();
 
     /* ------------------------------------------------------- theme toggle */

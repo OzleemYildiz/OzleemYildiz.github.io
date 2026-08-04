@@ -100,6 +100,14 @@
 
     this.svg.appendChild(web);
 
+    /* The outgoing shape, left behind as a faint outline so you can see what
+       changed rather than only where it landed. */
+    this.ghost = el('polygon', {
+      class: 'radar__ghost',
+      points: polygonPoints(this.values, this.cx, this.cy, this.r, this.max)
+    });
+    this.svg.appendChild(this.ghost);
+
     // The shape itself, starting collapsed at the centre.
     this.shape = el('polygon', {
       class: 'radar__shape',
@@ -148,6 +156,24 @@
     var to = target.slice();
 
     if (this.frame) cancelAnimationFrame(this.frame);
+
+    /* Park the shape we are leaving, unless it is the opening grow-from-centre,
+       where a ghost at the centre point would just be a dot. */
+    var fromCollapsed = from.every(function (v) { return v === 0; });
+    if (this.ghost && !fromCollapsed && !P.state.reducedMotion) {
+      this.ghost.setAttribute(
+        'points',
+        polygonPoints(from, this.cx, this.cy, this.r, this.max)
+      );
+      this.ghost.classList.remove('is-showing');
+      void this.ghost.getBoundingClientRect();
+      this.ghost.classList.add('is-showing');
+
+      clearTimeout(this.ghostTimer);
+      this.ghostTimer = setTimeout(function () {
+        self.ghost.classList.remove('is-showing');
+      }, 1900);
+    }
 
     var apply = function (values) {
       self.values = values;

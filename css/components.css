@@ -471,23 +471,51 @@
 }
 
 /* A visible cue that the photo itself does something. */
+/* Quiet by default: a small dot in the corner that only spells itself out when
+   you are actually near the card. */
 .gal__poke {
   position: absolute;
   top: var(--s-2);
   right: var(--s-2);
   z-index: 2;
-  padding: 2px 9px;
+  display: grid;
+  place-items: center;
+  width: 10px;
+  height: 10px;
+  padding: 0;
   border-radius: var(--radius-pill);
-  background: rgba(8, 14, 22, 0.5);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  color: #fff;
-  font-size: 0.68rem;
+  background: rgba(255, 255, 255, 0.75);
+  color: transparent;
+  font-size: 0.66rem;
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
   pointer-events: none;
-  transition: opacity var(--dur) var(--ease);
+  transition: width 220ms var(--ease), height 220ms var(--ease),
+    padding 220ms var(--ease), color 160ms var(--ease),
+    background-color 220ms var(--ease), opacity var(--dur) var(--ease);
+}
+
+.flip:hover .gal__poke {
+  width: auto;
+  height: auto;
+  padding: 2px 9px;
+  color: #fff;
+  background: rgba(8, 14, 22, 0.62);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+@media (hover: none) {
+  .gal__poke {
+    width: auto;
+    height: auto;
+    padding: 2px 9px;
+    color: #fff;
+    background: rgba(8, 14, 22, 0.62);
+  }
 }
 
 .flip.is-flipped .gal__poke { opacity: 0; }
@@ -875,6 +903,23 @@
 .radar__spoke {
   stroke: var(--line);
   stroke-width: 1;
+}
+
+/* The year you just left, held for a moment so the change is visible. */
+.radar__ghost {
+  fill: none;
+  stroke: var(--faint);
+  stroke-width: 1.5;
+  stroke-dasharray: 4 5;
+  stroke-linejoin: round;
+  opacity: 0;
+  transition: opacity 700ms var(--ease);
+  pointer-events: none;
+}
+
+.radar__ghost.is-showing {
+  opacity: 0.75;
+  transition: opacity 120ms var(--ease);
 }
 
 .radar__shape {
@@ -1318,5 +1363,100 @@
 
   .tdetail {
     transition: none;
+  }
+}
+
+/* -------------------------------------------------------- vine (Off-Duty) */
+
+/* Sits in the gutter to the left of the cards, behind everything, and is only
+   built at all on wide screens with motion allowed. */
+.vine {
+  position: absolute;
+  top: 120px;
+  left: -58px;
+  width: 60px;
+  z-index: 0;
+  overflow: visible;
+  pointer-events: none;
+}
+
+#panel-offduty {
+  position: relative;
+}
+
+.vine__stem {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  opacity: 0.5;
+}
+
+.vine__leaf {
+  fill: var(--accent);
+  opacity: 0;
+  transform: scale(0.3);
+  transform-origin: 30px center;
+  transform-box: fill-box;
+  transition: opacity 420ms var(--ease), transform 420ms var(--ease);
+}
+
+.vine__leaf.is-out {
+  opacity: 0.55;
+  transform: scale(1);
+}
+
+/* ------------------------------------------------------- terminal easter egg */
+
+.term {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  padding: var(--s-5);
+  background: rgba(1, 6, 4, 0.985);
+  backdrop-filter: blur(14px) saturate(40%);
+  -webkit-backdrop-filter: blur(14px) saturate(40%);
+  opacity: 0;
+  transition: opacity 240ms var(--ease);
+  cursor: pointer;
+}
+
+.term.is-on {
+  opacity: 1;
+}
+
+.term__screen {
+  margin: 0;
+  max-width: 62ch;
+  width: 100%;
+  min-height: 15em;
+  font-family: var(--font-mono);
+  font-size: clamp(0.82rem, 2.4vw, 1rem);
+  line-height: 1.75;
+  color: #4ADE80;
+  text-shadow: 0 0 12px rgba(74, 222, 128, 0.45);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* The cursor block, parked at the end of whatever has been typed so far. */
+.term__screen::after {
+  content: '\2588';
+  animation: term-blink 1s steps(1) infinite;
+}
+
+@keyframes term-blink {
+  50% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vine {
+    display: none;
+  }
+
+  .term__screen::after {
+    animation: none;
   }
 }
