@@ -1463,19 +1463,21 @@
 
 /* ---------------------------------------------------------- konami clue */
 
-/* Sits quietly in the footer showing only the first four keys. Hovering or
-   focusing it spells out the rest, and pressing it runs the sequence, which is
-   also the only way in on a device with no keyboard. */
+/* The whole sequence is spelled out in the footer, so it reads as an
+   invitation rather than a puzzle. Pressing it runs the terminal directly,
+   which is also the only way in on a device with no keyboard. */
 .konami-hint {
   display: inline-flex;
+  flex-wrap: wrap;
   align-items: center;
+  justify-content: center;
   gap: 4px;
   padding: 4px 8px;
   border: 0;
   border-radius: var(--radius-pill);
   background: none;
   color: var(--faint);
-  opacity: 0.55;
+  opacity: 0.6;
   transition: opacity var(--dur) var(--ease), background-color var(--dur) var(--ease);
 }
 
@@ -1499,32 +1501,11 @@
   color: var(--muted);
 }
 
-/* The rest of the sequence is collapsed rather than removed, so it stays
-   readable to a screen reader through the button's label. */
-.konami-hint__rest {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  max-width: 0;
-  overflow: hidden;
-  opacity: 0;
-  transition: max-width 320ms var(--ease), opacity 220ms var(--ease);
-}
-
-.konami-hint:hover .konami-hint__rest,
-.konami-hint:focus-visible .konami-hint__rest {
-  max-width: 16em;
-  opacity: 1;
-}
-
-.konami-hint__dots {
-  font-family: var(--font-mono);
-  font-size: 0.8rem;
-}
-
-.konami-hint:hover .konami-hint__dots,
-.konami-hint:focus-visible .konami-hint__dots {
-  display: none;
+.konami-hint__lead {
+  margin-right: 2px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
 }
 
 @media print {
