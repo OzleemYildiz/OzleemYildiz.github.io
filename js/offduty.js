@@ -37,8 +37,8 @@
     var dots = card.gallery
       .map(function (shot, n) {
         return (
-          '<span class="dot' + (n === 0 ? ' is-on' : '') + '" data-dot="' + n + '" ' +
-          'role="button" tabindex="0" aria-label="Photo ' + (n + 1) + ': ' + shot.alt + '"></span>'
+          '<button class="dot' + (n === 0 ? ' is-on' : '') + '" type="button" ' +
+          'data-dot="' + n + '" aria-label="Photo ' + (n + 1) + ': ' + shot.alt + '"></button>'
         );
       })
       .join('');
@@ -47,14 +47,25 @@
       '<span class="gal" data-gallery="' + i + '">' +
       '<span class="gal__stack">' + slides + '</span>' +
       '<span class="gal__nav">' +
-      '<span class="gal__arrow" data-step="-1" role="button" tabindex="0" ' +
-      'aria-label="Previous photo">' + P.icon('chevronLeft', 18) + '</span>' +
+      '<button class="gal__arrow" type="button" data-step="-1" ' +
+      'aria-label="Previous photo">' + P.icon('chevronLeft', 18) + '</button>' +
       '<span class="gal__dots">' + dots + '</span>' +
-      '<span class="gal__arrow" data-step="1" role="button" tabindex="0" ' +
-      'aria-label="Next photo">' + P.icon('chevronRight', 18) + '</span>' +
+      '<button class="gal__arrow" type="button" data-step="1" ' +
+      'aria-label="Next photo">' + P.icon('chevronRight', 18) + '</button>' +
       '</span>' +
       '<span class="gal__caption">' + card.gallery[0].caption + '</span>' +
       '</span>'
+    );
+  }
+
+  /* The one focusable control on a card. The card itself is a div, so that the
+     gallery buttons are not nested inside another button, which is invalid. */
+  function capButton(title, hint) {
+    return (
+      '<button class="flip__cap" type="button" aria-expanded="false">' +
+      '<span>' + title + '</span>' +
+      '<span class="flip__hint">' + hint + '</span>' +
+      '</button>'
     );
   }
 
@@ -64,25 +75,16 @@
     if (card.gallery) {
       front =
         galleryMarkup(card, i) +
-        '<span class="flip__cap">' +
-        '<span>' + card.title + '</span>' +
-        '<span class="flip__hint">' + (card.poke ? 'poke a plant' : 'flip') + '</span>' +
-        '</span>';
+        capButton(card.title, card.poke ? 'poke a plant' : 'flip');
     } else if (card.image) {
       front =
         '<span class="flip__media">' + picture(card.image, card.alt) + '</span>' +
-        '<span class="flip__cap">' +
-        '<span>' + card.title + '</span>' +
-        '<span class="flip__hint">flip</span>' +
-        '</span>';
+        capButton(card.title, 'flip');
     } else {
       front =
         '<span class="flip__icon">' + P.icon(card.icon || 'book', 30) + '</span>' +
         '<span class="flip__lead">' + card.front + '</span>' +
-        '<span class="flip__cap">' +
-        '<span>' + card.title + '</span>' +
-        '<span class="flip__hint">flip</span>' +
-        '</span>';
+        capButton(card.title, 'flip');
     }
 
     var back =
@@ -90,15 +92,14 @@
       (card.url ? '<span class="flip__link">' + card.linkLabel + ' &rarr;</span>' : '');
 
     return (
-      '<button class="flip' + (card.poke ? ' flip--plant' : '') + '" type="button" ' +
-      'aria-expanded="false" data-card="' + i + '"' +
+      '<div class="flip' + (card.poke ? ' flip--plant' : '') + '" data-card="' + i + '"' +
       (card.poke ? ' data-poke="1"' : '') +
       (card.url ? ' data-url="' + card.url + '"' : '') + '>' +
       '<span class="flip__inner">' +
       '<span class="flip__face flip__front">' + front + '</span>' +
       '<span class="flip__face flip__back">' + back + '</span>' +
       '</span>' +
-      '</button>'
+      '</div>'
     );
   }
 
@@ -145,17 +146,6 @@
         else showShot(gal, Number(dot.dataset.dot));
       });
 
-      root.addEventListener('keydown', function (e) {
-        if (e.key !== 'Enter' && e.key !== ' ') return;
-        var hit = e.target.closest('.gal__arrow, .dot');
-        if (!hit) return;
-        e.preventDefault();
-        e.stopPropagation();
-        var gal = hit.closest('.gal');
-        if (hit.classList.contains('dot')) showShot(gal, Number(hit.dataset.dot));
-        else showShot(gal, currentShot(gal) + Number(hit.dataset.step));
-      });
-
       /* One delegated handler for every flip card on the page. */
       document.addEventListener('click', function (e) {
         if (e.target.closest('.gal__arrow, .dot')) return;
@@ -177,7 +167,8 @@
         }
 
         var flipped = card.classList.toggle('is-flipped');
-        card.setAttribute('aria-expanded', String(flipped));
+        var cap = card.querySelector('.flip__cap');
+        if (cap) cap.setAttribute('aria-expanded', String(flipped));
 
         // A card carrying a link opens it on the second click, once its back is
         // showing, so the first click never navigates away unexpectedly.
@@ -193,7 +184,8 @@
           document.querySelectorAll('.flip.is-flipped'),
           function (card) {
             card.classList.remove('is-flipped');
-            card.setAttribute('aria-expanded', 'false');
+            var cap = card.querySelector('.flip__cap');
+            if (cap) cap.setAttribute('aria-expanded', 'false');
           }
         );
       });

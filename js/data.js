@@ -26,15 +26,15 @@
       instagram: 'https://instagram.com/c_ozy_film?igshid=OGQ5ZDc2ODk2ZA%3D%3D&utm_source=qr'
     },
     bio: [
-      'I am a research scientist at Meta, where I work on how AI coding agents share what they learn. Right now that means two things: a plugin that carries context between agents so they stop re-failing problems another agent already solved, and the benchmark tasks and evaluation frameworks that decide whether any of it actually worked.',
+      'I am a research scientist at Meta, where I work on how AI coding agents share what they learn. Right now that means two things: a plugin that carries context between agents so they stop re-failing problems another agent already solved, and the benchmark tasks and evaluation frameworks that measure whether it worked.',
       'Before that I spent a year post-training multimodal models for Ray-Ban Meta glasses, across text, vision and audio in 11 languages. I built the data curation pipeline behind it and the LLM-as-a-judge system that graded its output, which then got reused as the reward signal for RL.',
-      'I have a Ph.D. in Electrical and Computer Engineering from NYU Tandon, advised by Prof. Elza Erkip. I started in wireless: beam alignment, hardware-constrained receivers, information theory. Somewhere between a passthrough-rendering internship and a pile of translation evals, I ended up here. The through line is that I like problems where nobody has agreed yet on what counts as a correct answer.'
+      'I have a Ph.D. in Electrical and Computer Engineering from NYU Tandon, advised by Prof. Elza Erkip. My doctoral work was on hardware-aware design for millimeter wave and sub-terahertz systems: beam alignment, hardware-constrained receivers, and information theory. I moved into large-scale AI systems after an AR/VR internship at Meta Reality Labs in 2024.'
     ],
     stats: [
-      { value: 8, label: 'publications', note: 'Two of them still say "submitted" and I check the portal weekly.' },
-      { value: 2, label: 'patents pending', note: 'Both from summer internships, which still surprises me.' },
-      { value: 11, label: 'languages shipped', note: 'I only speak two of them.' },
-      { value: 5, label: 'years of research', note: '2020 to 2025, NYU Wireless.' }
+      { value: 8, label: 'publications', note: 'Six published, two under review at Asilomar 2026 and IEEE TWC.' },
+      { value: 2, label: 'patents pending', note: 'Filed from the Samsung Research America and Dell internships.' },
+      { value: 11, label: 'languages shipped', note: 'Ray-Ban Meta Glasses translation, in production.' },
+      { value: 5, label: 'years of research', note: 'NYU Wireless, 2020 to 2025, with Prof. Elza Erkip.' }
     ]
   };
 
@@ -49,9 +49,8 @@
       'My work splits into two parts: getting agents to carry what they have learned across runs, and building the evaluation that shows whether it made any difference.',
     points: [
       'Built a plugin for an AI coding agent harness that shares learned context across agents, so a failure one agent already worked through does not get repeated by the next one.',
-      'Designed benchmark tasks and evaluation frameworks for AI coding agents, turning "good agentic coding behavior" into reproducible criteria you can actually measure instead of argue about.'
-    ],
-    pipeline: ['Task design', 'Agent execution', 'Evaluation', 'Scoring']
+      'Designed benchmark tasks and evaluation frameworks for AI coding agents, turning what counts as good agentic coding behavior into reproducible, measurable criteria.'
+    ]
   };
 
   P.data.previousWork = [
@@ -61,7 +60,7 @@
       project: 'Ray-Ban Meta Glasses',
       period: 'September 2025 to May 2026',
       location: 'New York, NY',
-      teaser: 'Post-training multimodal models for glasses people actually wear.',
+      teaser: 'Multimodal post-training for Ray-Ban Meta Glasses, across 11 languages.',
       points: [
         'Built a production translation evaluation and auto-rewrite workflow with iterative improvement loops, raising success rates from 48% to 90% across European languages.',
         'Drove the Turkish voice LLM launch, lifting the LLM-judge translation quality score from 67.8 to 86.4 over 1M samples, including the phonetic error cases that only show up in production. The judge was calibrated against human annotations and then reused as the RL reward signal.',
@@ -76,10 +75,10 @@
       project: 'Reality Labs, Burlingame',
       period: 'June to August 2024',
       location: 'Burlingame, CA',
-      teaser: 'Filling in the pixels a headset cannot see.',
+      teaser: 'ML inpainting for depth and texture in AR passthrough rendering.',
       supervisor: 'Supervised by Dr. Margarita Grinvald',
       points: [
-        'Delivered an end-to-end ML inpainting model for depth and texture synthesis at disocclusion regions, the gaps that appear when the camera view gets reprojected to where your eye actually is.',
+        'Delivered an end-to-end ML inpainting model for depth and texture synthesis at disocclusion regions, the gaps left when the camera view is reprojected to the position of the eye.',
         'Integrated a layered depth inpainting model into a production AR/VR passthrough rendering pipeline, including camera model projections, coordinate transforms, temporal stability via blending, and GPU kernel testing across 100+ frame sequences.',
         'Improved reconstruction quality (PSNR and SSIM) over baselines, which shows up directly as visual fidelity in the AR display.'
       ]
@@ -257,7 +256,7 @@
       org: 'Bilkent University, Ankara',
       values: [4, 2, 3, 1, 0, 0],
       detail:
-        'Electrical and Electronics Engineering on a full fellowship, after ranking 215th out of about two million in the national placement exam. Graduated with a 3.83 GPA. Taught Algorithms and Programming 1 and Microprocessors along the way.'
+        'B.Sc. in Electrical and Electronics Engineering on a full fellowship, after ranking 215th out of roughly two million in the national university placement exam. Graduated with a 3.83 GPA. Teaching assistant for Algorithms and Programming 1 and for Microprocessors.'
     },
     {
       year: '2019',
@@ -265,7 +264,7 @@
       org: 'University of Erlangen-Nuremberg, Germany',
       values: [5, 3, 3, 1, 0, 0],
       detail:
-        'Six months in Germany on an Erasmus+ scholarship, March to August. First time doing engineering in a language I was still learning.'
+        'Six months at the University of Erlangen-Nuremberg on an Erasmus+ scholarship, March to August 2019, taking electrical engineering coursework in Germany.'
     },
     {
       year: '2020',
@@ -273,7 +272,7 @@
       org: 'NYU Wireless, advised by Prof. Elza Erkip',
       values: [6, 4, 3, 2, 1, 0],
       detail:
-        'School of Engineering Fellowship. Research on deep neural networks for nonlinear channel capacity estimation under hardware constraints, group testing for beam alignment, and neural architectures for semantic joint source-channel coding. Taught Probability and Stochastic Processes with Prof. Erkip and Machine Learning with Prof. Musco.'
+        'Started the Ph.D. on a School of Engineering Fellowship, advised by Prof. Elza Erkip. Research on deep neural networks for nonlinear channel capacity estimation under hardware constraints with Prof. Sundeep Rangan, group testing for beam alignment, and neural architectures for semantic joint source-channel coding with Prof. Yao Wang. Teaching assistant for Probability and Stochastic Processes with Prof. Erkip and for Machine Learning with Prof. Christopher Musco.'
     },
     {
       year: '2021',
@@ -281,7 +280,7 @@
       org: 'R&I Intern, New York',
       values: [7, 5, 4, 3, 1, 0],
       detail:
-        'Evaluated non-linear waveform spectral performance and developed a waveform energy KPI for high-frequency wireless. Supervised by Dr. Ramon Khalona.'
+        'Research and Innovation intern, June to August 2021. Evaluated non-linear waveform spectral performance and developed a waveform energy KPI for high-frequency wireless communications. Supervised by Dr. Ramon Khalona.'
     },
     {
       year: '2022',
@@ -289,7 +288,7 @@
       org: 'Graduate Research Intern, New York',
       values: [8, 6, 4, 3, 1, 0],
       detail:
-        'ML-based optimization of secrecy capacity in IRS-assisted mmWave indoor systems. Turned into a U.S. patent application and an RWS paper. Supervised by Dr. Tejinder Singh.'
+        'Graduate research intern, June to August 2022. ML-based optimization of secrecy capacity in IRS-assisted mmWave indoor systems, supervised by Dr. Tejinder Singh. The work became U.S. Patent App. 18/469,724 and a paper at IEEE RWS 2023.'
     },
     {
       year: '2023',
@@ -297,15 +296,16 @@
       org: 'Graduate Research Intern, Dallas',
       values: [9, 7, 5, 4, 2, 0],
       detail:
-        'ML-based optimization of 3D frequency-dependent beamforming using true time delay elements and phase shifters. Won Best Poster among all intern final presentations, and the work became a VTC 2024 paper and a second patent application. Supervised by Dr. Jianhua Mo and Dr. Ahmad AlAmmouri.'
+        'Graduate research intern, June to August 2023, supervised by Dr. Jianhua Mo and Dr. Ahmad AlAmmouri. ML-based optimization of 3D frequency-dependent beamforming using true time delay elements and phase shifters. Received the Best Poster Award among all intern final presentations. The work became a paper at IEEE VTC 2024 and U.S. Patent App. 18/811,643.'
     },
     {
       year: '2024',
       title: 'Meta AR/VR internship',
+      company: 'Meta',
       org: 'Reality Labs, Burlingame',
       values: [8, 8, 6, 5, 6, 1],
       detail:
-        'End-to-end ML inpainting for depth and texture synthesis in AR passthrough rendering, integrated into a production pipeline. This is the point where the work stopped being about radios and started being about pixels and models.'
+        'PhD software engineer intern at Meta Reality Labs, June to August 2024, supervised by Dr. Margarita Grinvald. Built an end-to-end ML inpainting model for depth and texture synthesis at disocclusion regions in AR passthrough rendering, and integrated it into a production pipeline.'
     },
     {
       year: '2025',
@@ -313,7 +313,7 @@
       org: 'NYU Tandon, August 2025',
       values: [7, 8, 6, 6, 6, 2],
       detail:
-        'Five years, one thesis on hardware-aware design for millimeter wave and sub-terahertz systems, and a defense where half the committee joined on screen. Advised by Prof. Elza Erkip.',
+        'Five years of Ph.D. work on hardware-aware design for millimeter wave and sub-terahertz wireless systems with Prof. Elza Erkip. Committee members are Prof. Sundeep Rangan and Prof. Hamed Rahmani. Graduated with a 3.93 GPA.',
       photos: [
         { src: 'defense', alt: 'Presenting at my thesis defense, with the committee joining on screen' },
         { src: 'graduation', alt: 'Graduation at NYU with my advisor, Prof. Elza Erkip, and labmates' }
@@ -322,18 +322,21 @@
     {
       year: '2025',
       title: 'Joined Meta full-time',
-      org: 'Research Scientist, Ray-Ban Meta Glasses',
+      company: 'Meta',
+      org: 'Research Scientist, Multimodal AI, Ray-Ban Glasses',
       values: [5, 9, 8, 8, 9, 4],
       detail:
-        'Started in September on multimodal post-training for smart glasses: translation quality across 11 languages, the data pipeline feeding it, and the LLM-as-a-judge system grading the output.'
+        'Joined Meta in September 2025 as a Research Scientist on the Multimodal AI team for Ray-Ban Meta Glasses. Post-training multimodal models across text, vision and audio, the async data curation pipeline behind them, and the LLM-as-a-judge framework used to grade the output and as an RL reward signal.'
     },
     {
       year: '2026',
-      title: 'Agent Data & Optimization',
-      org: 'Meta, New York',
+      title: 'Moved teams inside Meta',
+      company: 'Meta',
+      org: 'Research Scientist, Agent Data & Optimization',
+      sameCompany: 'Same company, new team',
       values: [3, 9, 9, 10, 7, 9],
       detail:
-        'Context sharing between coding agents, plus the benchmarks and evaluation frameworks that tell us whether an agent is genuinely better or just better at looking busy.',
+        'Moved from the Multimodal AI team to Agent Data & Optimization in May 2026, staying at Meta. Working on context sharing between AI coding agents, and on the benchmark tasks and evaluation frameworks used to measure whether an agent has actually improved.',
       current: true
     }
   ];
@@ -365,7 +368,7 @@
         }
       ],
       back:
-        'Eleven of them, and I have never lost one, which I bring up more often than anyone wants. The moon cactus is the interesting one: the red part cannot photosynthesise at all, so it lives entirely off the green stem it is grafted onto.'
+        'Eleven of them, and I have not lost one yet. The moon cactus is the interesting one: the red part cannot photosynthesise at all, so it lives entirely off the green stem it is grafted onto.'
     },
     {
       kind: 'photo',
@@ -373,7 +376,7 @@
       title: 'Pier Pressure',
       alt: 'My volleyball team in pink Volo jerseys on a sand court with the Manhattan skyline behind us',
       back:
-        'Our Volo team, on sand at the pier with the skyline behind us. We named ourselves before we found out how we would play. The name is still the strongest part of our game.'
+        'Our Volo team, on sand at the pier with the skyline behind us. We picked the name before we found out how we would play, and the name is still winning.'
     },
     {
       kind: 'gallery',
@@ -399,7 +402,7 @@
       title: 'Film photography',
       alt: 'A grainy film photograph of a church tower against a dusk sky',
       back:
-        'Thirty-six frames and no screen on the back. I shoot a roll, forget what is on it, and get it back weeks later like a message from someone else.',
+        'Thirty-six frames and no screen on the back. I shoot a roll, forget what is on it, and find out weeks later.',
       url: 'https://instagram.com/c_ozy_film?igshid=OGQ5ZDc2ODk2ZA%3D%3D&utm_source=qr',
       linkLabel: 'More on Instagram'
     },
@@ -417,19 +420,17 @@
       icon: 'mountain',
       front: 'Indoors, when the weather wins',
       back:
-        'Climbing is the one that transfers. You fail the same move eleven times, change one small thing, and suddenly it goes. That is most of research, with better shoes.'
+        'Climbing is the one that transfers to work. You fail the same move eleven times, change one small thing, and it goes.'
     }
   ];
 
   /* Rotating one-liners for the plant confetti burst. */
   P.data.plantQuips = [
     'Watered. Probably.',
-    'Photosynthesis: still undefeated.',
-    'This one has outlived three laptops.',
-    'No notes. Perfect plant.',
-    'Repotted under protest.',
     'It grew toward the window again.',
-    'Certified low maintenance, unlike the benchmark suite.'
+    'Repotted under protest.',
+    'Still alive. Eleven for eleven.',
+    'New leaf. Big day.'
   ];
 
   /* --------------------------------------------------------------- what next */
@@ -442,7 +443,7 @@
         icon: 'bridge',
         title: 'Sit where research and product meet',
         body:
-          'The best questions I have worked on did not come from a paper. They came from something being visibly wrong in front of a user, and then turning out to be genuinely hard underneath. I want to keep standing at that seam: close enough to the product to know what actually matters, close enough to the research to answer it properly instead of patching it.'
+          'The best questions I have worked on did not come from a paper. They came from something being visibly wrong in front of a user, and then turning out to be a hard problem underneath. I want to keep working at that boundary: close enough to the product to know which problems matter, and close enough to the research to answer them properly rather than patch them.'
       },
       {
         icon: 'spark',
@@ -454,7 +455,7 @@
         icon: 'compass',
         title: 'Get better at choosing the question',
         body:
-          'Picking the problem is the part that decides whether any of the work matters, and it is the part I most want to get better at. I want to be the person who notices the investigation worth running before it is obvious, and who can say early and clearly when something is not worth the next three months.'
+          'Picking the problem is the part that decides whether any of the work matters, and it is the part I most want to get better at. I want to get better at spotting which investigation is worth running before it is obvious, and at saying clearly and early when something is not worth another three months.'
       }
     ],
     closing:

@@ -172,73 +172,15 @@
   margin-top: var(--s-2);
 }
 
-/* --------------------------------------------------------------- pipeline */
-
-.pipeline {
-  width: 100%;
-  height: auto;
-  overflow: visible;
-}
-
-.pipeline__box {
-  fill: var(--bg-raised);
-  stroke: var(--line-strong);
-  stroke-width: 1;
-}
-
-.pipeline__label {
-  fill: var(--text);
-  font-family: var(--font);
-  font-size: 12px;
-  font-weight: 600;
-}
-
-.pipeline__flow {
-  fill: none;
-  stroke: var(--accent);
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-dasharray: 7 9;
-}
-
-/* Only animate once the panel is actually visible, so the dash offset does not
-   drift while the tab is hidden. */
-.is-active .pipeline__flow {
-  animation: flow 1.4s linear infinite;
-}
-
-@keyframes flow {
-  to {
-    stroke-dashoffset: -32;
-  }
-}
-
-.pipeline__loop {
-  fill: none;
-  stroke: var(--faint);
-  stroke-width: 1.5;
-  stroke-dasharray: 3 5;
-}
-
-.pipeline__looplabel {
-  fill: var(--faint);
-  font-family: var(--font);
-  font-size: 10.5px;
-  font-style: italic;
-}
-
 /* ------------------------------------------------------------- flip cards */
 
 .flip {
   perspective: 1200px;
-  background: none;
-  border: 0;
-  padding: 0;
-  text-align: left;
   width: 100%;
   /* Fill the grid row so every card in a row is the same height. */
   height: 100%;
   border-radius: var(--radius);
+  cursor: pointer;
 }
 
 /* display:block matters. These are <span>s, and an inline element is not a
@@ -247,12 +189,16 @@
    card as a mirrored sliver. preserve-3d and min-height are also ignored on an
    inline box. */
 .flip__inner {
-  display: block;
+  /* Grid rather than absolute positioning: both faces occupy the same cell, so
+     the card sizes itself to whichever face is taller and nothing gets clipped.
+     With the faces absolutely positioned the card had a fixed height and long
+     back-face text was simply cut off by overflow: hidden. */
+  display: grid;
   position: relative;
   height: 100%;
   transform-style: preserve-3d;
   transition: transform 520ms var(--ease);
-  min-height: 300px;
+  min-height: 260px;
 }
 
 .flip:hover .flip__inner,
@@ -269,8 +215,8 @@
  * ignored. backface-visibility stays as a belt-and-braces for engines that do
  * honour it. */
 .flip__face {
-  position: absolute;
-  inset: 0;
+  grid-area: 1 / 1;
+  min-width: 0;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   border-radius: var(--radius);
@@ -312,9 +258,8 @@
   color: var(--muted);
 }
 
-/* Both faces are absolute; the card's height comes from .flip__inner's
-   min-height and from stretching to its grid row, which also keeps every card
-   in a row the same size. */
+/* Both faces share one grid cell, so the taller one sets the card height and
+   every card in a row still stretches to match. */
 
 /* All of the inner pieces are <span>s too, so each needs an explicit display
    or it lays out as inline text instead of a flex child. */
@@ -331,13 +276,19 @@
   object-fit: cover;
 }
 
+ /* The caption bar is the card's real, focusable control: the card itself is a
+    plain div so the gallery buttons are not nested inside another button. */
 .flip__cap {
   flex: 0 0 auto;
   /* Sits at the foot of the card even when there is no image above it to take
      up the slack. */
   margin-top: auto;
+  width: 100%;
   padding: var(--s-3) var(--s-4);
+  border: 0;
   border-top: 1px solid var(--line);
+  background: none;
+  text-align: left;
   font-weight: 600;
   font-size: 0.92rem;
   color: var(--text-strong);
@@ -345,6 +296,11 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--s-2);
+  transition: color var(--dur) var(--ease);
+}
+
+.flip__cap:hover {
+  color: var(--accent-ink);
 }
 
 .flip__hint {
@@ -444,6 +400,8 @@
   display: block;
   width: 7px;
   height: 7px;
+  padding: 0;
+  border: 0;
   border-radius: 50%;
   background: var(--line-strong);
   transition: background-color var(--dur) var(--ease), transform var(--dur) var(--ease);
@@ -538,6 +496,89 @@
   height: 7px;
   border-radius: 2px;
   background: var(--accent);
+}
+
+/* ------------------------------------------------- previous role cards */
+
+.rolestack {
+  display: grid;
+  gap: var(--s-4);
+}
+
+.rolecard {
+  display: grid;
+  gap: var(--s-2);
+  background: var(--bg-panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: var(--s-5);
+  box-shadow: var(--shadow);
+  transition: border-color var(--dur) var(--ease);
+}
+
+.rolecard:hover {
+  border-color: var(--line-strong);
+}
+
+.rolecard__teaser {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--muted);
+  max-width: var(--measure);
+}
+
+.rolecard__teaser strong {
+  color: var(--text-strong);
+  font-weight: 650;
+}
+
+.rolecard__sup {
+  font-size: 0.83rem;
+  color: var(--faint);
+}
+
+.rolecard__toggle {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  margin-top: var(--s-1);
+  padding: var(--s-2) var(--s-4);
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--line-strong);
+  background: none;
+  color: var(--accent-ink);
+  font-size: 0.85rem;
+  font-weight: 650;
+  transition: border-color var(--dur) var(--ease), background-color var(--dur) var(--ease);
+}
+
+.rolecard__toggle:hover {
+  border-color: var(--accent);
+  background: var(--accent-wash);
+}
+
+.rolecard__chev {
+  display: grid;
+  place-items: center;
+  transition: transform var(--dur) var(--ease);
+}
+
+.rolecard__toggle[aria-expanded='true'] .rolecard__chev {
+  transform: rotate(90deg);
+}
+
+.rolecard__body.is-open {
+  animation: rolebody-in 220ms var(--ease);
+}
+
+@keyframes rolebody-in {
+  from {
+    transform: translateY(-4px);
+  }
+  to {
+    transform: none;
+  }
 }
 
 /* --------------------------------------------------------- publications */
@@ -903,6 +944,32 @@
   color: var(--faint);
 }
 
+/* Company name carried ahead of the role, so a move between teams inside the
+   same employer reads as a move rather than as a new job. */
+.tnode__co {
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.tnode__co::after {
+  content: ' · ';
+  font-weight: 400;
+  color: var(--faint);
+}
+
+.tnode__same {
+  justify-self: start;
+  margin-top: 3px;
+  padding: 1px 8px;
+  border-radius: var(--radius-pill);
+  border: 1px dashed color-mix(in srgb, var(--accent) 45%, transparent);
+  background: var(--accent-wash);
+  color: var(--accent-ink);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
 .tnode__now {
   display: inline-block;
   margin-left: var(--s-2);
@@ -1154,12 +1221,16 @@
     height: auto;
   }
 
+  /* No rotation, so the faces stack vertically instead of sharing a cell. */
+  .flip__inner {
+    display: block;
+  }
+
   .flip__face,
   .flip:hover .flip__front,
   .flip.is-flipped .flip__front,
   .flip:hover .flip__back,
   .flip.is-flipped .flip__back {
-    position: relative;
     opacity: 1;
     transition: none;
     backface-visibility: visible;

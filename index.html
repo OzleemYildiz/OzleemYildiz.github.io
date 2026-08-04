@@ -115,41 +115,8 @@
 				</div>
 
 				<div>
-					<p class="section-title">Evaluation loop</p>
-					<div class="card">
-						<svg class="pipeline" viewBox="0 0 720 172" role="img"
-							aria-label="Pipeline diagram: task design flows to agent execution, then evaluation, then scoring, and scoring feeds back into task design.">
-							<!-- flow lines sit under the boxes so the dashes tuck behind the edges -->
-							<path class="pipeline__flow" d="M152 52 H188" />
-							<path class="pipeline__flow" d="M332 52 H368" />
-							<path class="pipeline__flow" d="M512 52 H548" />
-
-							<g class="pipeline__boxes">
-								<rect class="pipeline__box" x="8" y="28" width="144" height="48" rx="9" />
-								<text class="pipeline__label" x="80" y="57" text-anchor="middle">Task design</text>
-
-								<rect class="pipeline__box" x="188" y="28" width="144" height="48" rx="9" />
-								<text class="pipeline__label" x="260" y="57" text-anchor="middle">Agent execution</text>
-
-								<rect class="pipeline__box" x="368" y="28" width="144" height="48" rx="9" />
-								<text class="pipeline__label" x="440" y="57" text-anchor="middle">Evaluation</text>
-
-								<rect class="pipeline__box" x="548" y="28" width="144" height="48" rx="9" />
-								<text class="pipeline__label" x="620" y="57" text-anchor="middle">Scoring</text>
-							</g>
-
-							<!-- the part people forget: results rewrite the task -->
-							<path class="pipeline__loop" d="M620 84 V126 H80 V84" />
-							<text class="pipeline__looplabel" x="350" y="145" text-anchor="middle">
-								results feed back into the task design
-							</text>
-						</svg>
-					</div>
-				</div>
-
-				<div>
 					<p class="section-title">Before this</p>
-					<div class="grid grid--2" id="previous-work"></div>
+					<div class="rolestack" id="previous-work"></div>
 				</div>
 			</section>
 
@@ -204,8 +171,8 @@
 				<div>
 					<h2 class="head">I switched fields in the middle</h2>
 					<p class="prose" style="margin-top: var(--s-3); color: var(--muted);">
-						Pick a year. The shape redraws to show what I was actually spending my time on.
-						Wireless does not vanish so much as get outvoted.
+						Pick a year. The chart redraws to show where my work was going at the time,
+						from wireless and signal processing toward agent evaluation.
 					</p>
 				</div>
 
